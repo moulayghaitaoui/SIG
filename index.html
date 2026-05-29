@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>منصة التحليل الشامل لمشروع SIG - مراكز التكوين المهني</title>
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="styles.css">
+    <!-- Chart.js for data visualization -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="app-container">
+        
+        <!-- Sidebar Navigation -->
+        <aside>
+            <div class="logo-container">
+                <div class="logo-icon">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                    </svg>
+                </div>
+                <div class="logo-text">
+                    <h1>منصة تحليل SIG</h1>
+                    <span>نظام التسيير البيداغوجي</span>
+                </div>
+            </div>
+
+            <nav>
+                <div class="nav-item active" data-tab="dashboard">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2H6a2 2 0 01-2-2v-4zM14 16a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2h-2a2 2 0 01-2-2v-4z"></path>
+                    </svg>
+                    <span>لوحة التحكم والإحصائيات</span>
+                </div>
+                <div class="nav-item" data-tab="schema-explorer">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"></path>
+                    </svg>
+                    <span>معجم قاعدة البيانات</span>
+                </div>
+                <div class="nav-item" data-tab="validation-rules">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                    </svg>
+                    <span>قواعد التحقق والمنطق</span>
+                </div>
+                <div class="nav-item" data-tab="simulator">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <span>محاكي التحقق الفوري</span>
+                </div>
+                <div class="nav-item" data-tab="interfaces">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                    </svg>
+                    <span>شاشات وواجهات النظام</span>
+                </div>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="tech-tag">
+                    <svg style="width:16px;height:16px" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                    </svg>
+                    <span>التقنية: <span>Laravel 12 / WinDev</span></span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Panel -->
+        <main>
+            
+            <!-- Header bar -->
+            <header>
+                <div class="header-title">
+                    <h2 id="current-tab-title">لوحة التحكم والإحصائيات العامة</h2>
+                    <p id="current-tab-subtitle">مؤشرات ومعلومات عامة لدراسة هيكل وقواعد بيانات النظام الشامل</p>
+                </div>
+                <div class="system-badge">
+                    <div class="status-dot"></div>
+                    <span>دراسة موثقة للمشروع</span>
+                </div>
+            </header>
+
+            <!-- TAB 1: Dashboard -->
+            <div id="tab-dashboard" class="tab-content active">
+                
+                <!-- Quick stats -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon primary">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                            </svg>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-value">552</span>
+                            <span class="stat-label">إجمالي جداول النظام</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon secondary">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path>
+                            </svg>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-value">723</span>
+                            <span class="stat-label">العلاقات البينية والربط</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon accent">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path>
+                            </svg>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-value">5</span>
+                            <span class="stat-label">أنظمة فرعية متكاملة</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon success">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-value">%100</span>
+                            <span class="stat-label">جاهزية الترحيل المعماري</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charts layout -->
+                <div class="layout-grid">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">
+                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"></path>
+                                </svg>
+                                توزيع الجداول وهيكل قاعدة البيانات
+                            </h3>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="schemaChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">
+                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                                </svg>
+                                تقدم وجاهزية ترحيل المشاريع
+                            </h3>
+                        </div>
+                        <div class="progress-list">
+                            <div class="progress-item">
+                                <div class="progress-header">
+                                    <span class="progress-name">نظام التسيير البيداغوجي (SIG)</span>
+                                    <span class="progress-value">327 جدولاً (%100)</span>
+                                </div>
+                                <div class="progress-bar-bg">
+                                    <div class="progress-bar-fill sig" style="width: 100%"></div>
+                                </div>
+                            </div>
+                            <div class="progress-item">
+                                <div class="progress-header">
+                                    <span class="progress-name">نظام الميزانية والأجور (SIGFA)</span>
+                                    <span class="progress-value">86 جدولاً (%100)</span>
+                                </div>
+                                <div class="progress-bar-bg">
+                                    <div class="progress-bar-fill sigfa" style="width: 100%"></div>
+                                </div>
+                            </div>
+                            <div class="progress-item">
+                                <div class="progress-header">
+                                    <span class="progress-name">عقود التمهين والتنسيق (SIG-PAF)</span>
+                                    <span class="progress-value">139 جدولاً (%100)</span>
+                                </div>
+                                <div class="progress-bar-bg">
+                                    <div class="progress-bar-fill sigpaf" style="width: 100%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Domain Overview Card -->
+                <div class="card layout-col-full" style="margin-top: 1.5rem">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path>
+                            </svg>
+                            نظرة عامة على النطاقات المعمارية للنظام (DDD domains)
+                        </h3>
+                    </div>
+                    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; margin-top: 1rem">
+                        <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-color); padding: 1.5rem; border-radius: 16px; border-right: 4px solid var(--primary)">
+                            <h4 style="font-weight:700; color:white; margin-bottom:0.5rem">الهياكل والمؤسسات</h4>
+                            <p style="font-size:0.85rem; color:var(--text-secondary); line-height:1.5">يدير الهرم التنظيمي لقطاع التكوين المهني بدءاً من الوزارات، المديريات الولائية (DFEP)، ومراكز التكوين والورشات والتجهيزات.</p>
+                        </div>
+                        <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-color); padding: 1.5rem; border-radius: 16px; border-right: 4px solid var(--secondary)">
+                            <h4 style="font-weight:700; color:white; margin-bottom:0.5rem">الشعب وعروض التكوين</h4>
+                            <p style="font-size:0.85rem; color:var(--text-secondary); line-height:1.5">يختص بتعريف الشعب البيداغوجية، التخصصات القياسية للوزارة، عروض التكوين لكل دورة والأقسام المفتوحة.</p>
+                        </div>
+                        <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-color); padding: 1.5rem; border-radius: 16px; border-right: 4px solid var(--accent)">
+                            <h4 style="font-weight:700; color:white; margin-bottom:0.5rem">المتربصين والتمهين</h4>
+                            <p style="font-size:0.85rem; color:var(--text-secondary); line-height:1.5">يدير شؤون الطلبة والمتمهنين من مرحلة الترشح الإلكتروني المسبق إلى القبول النهائي والغيابات والتقييمات الفصلية.</p>
+                        </div>
+                        <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-color); padding: 1.5rem; border-radius: 16px; border-right: 4px solid var(--success)">
+                            <h4 style="font-weight:700; color:white; margin-bottom:0.5rem">الميزانية والأجور</h4>
+                            <p style="font-size:0.85rem; color:var(--text-secondary); line-height:1.5">يمثل النظام المالي المحاسبي (SIGFA) لحساب رواتب الموظفين والأساتذة وإدارة نفقات مواد الميزانية والموردين.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- TAB 2: Schema Explorer -->
+            <div id="tab-schema-explorer" class="tab-content">
+                <!-- Search panel -->
+                <div class="search-box">
+                    <input type="text" id="schema-search-input" class="search-input" placeholder="ابحث باسم الجدول (أصل WinDev أو Mapped) أو الكلمات المفتاحية (candidat, ccp, budget...)...">
+                    <div class="search-icon">
+                        <svg style="width:24px;height:24px" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- Domain filter tabs -->
+                <div class="domain-tabs">
+                    <div class="domain-tab active" data-domain="all">كافة الجداول</div>
+                    <div class="domain-tab" data-domain="establishment">المؤسسات والهياكل</div>
+                    <div class="domain-tab" data-domain="specialty">التخصصات والعروض</div>
+                    <div class="domain-tab" data-domain="trainee">الطلبة والتمهين</div>
+                    <div class="domain-tab" data-domain="finance">الرواتب والميزانية المالية</div>
+                </div>
+
+                <!-- Tables Grid Container -->
+                <div class="tables-list" id="tables-container">
+                    <!-- Dynamic Javascript Content -->
+                </div>
+            </div>
+
+            <!-- TAB 3: Validation Rules -->
+            <div id="tab-validation-rules" class="tab-content">
+                <div class="rules-grid">
+                    
+                    <!-- Rule 1 -->
+                    <div class="rule-card">
+                        <div class="rule-header">
+                            <span class="rule-tag financial">الرقابة المالية</span>
+                            <h3 class="rule-title">حساب صحة مفتاح الحساب الجاري البريدي (CCP Key)</h3>
+                        </div>
+                        <p class="rule-body">يقوم النظام بالتحقق الحسابي من صحة رقم الحساب الجاري للموظف ومطابقته للمفتاح (Cle CCP) لتجنب تحويل أجور الموظفين والأساتذة شهرياً لحسابات خاطئة عن طريق الخطأ.</p>
+                        <h4 style="font-size:0.85rem; color:white; font-weight:700">المعادلة والخوارزمية المطبقة (Modulo 97):</h4>
+                        <div class="code-snippet">
+$calculated_key = 97 - (intval($ccp) * 100) % 97;
+return intval($key) === $calculated_key;
+                        </div>
+                        <p style="font-size:0.8rem; color:var(--text-muted)">الجداول المتأثرة: <span style="font-family:var(--font-en)">Fonctionnaire, Encadrement</span></p>
+                    </div>
+
+                    <!-- Rule 2 -->
+                    <div class="rule-card">
+                        <div class="rule-header">
+                            <span class="rule-tag academic">البيداغوجيا</span>
+                            <h3 class="rule-title">مطابقة شروط السن القانوني للمتربصين (Age constraints)</h3>
+                        </div>
+                        <p class="rule-body">يفرض النظام قانون التمهين الجزائري وقوانين التعليم البيداغوجي للقبول الفوري في عروض التكوين المتوفرة:</p>
+                        <ul style="padding-right: 1.5rem; font-size: 0.85rem; color: var(--text-secondary); display: flex; flex-direction: column; gap: 0.25rem">
+                            <li><strong>نمط التمهين (Apprentissage)</strong>: يجب أن يتراوح عمر المتمهن بين <strong>15 و 35 سنة</strong> عند تاريخ التعاقد.</li>
+                            <li><strong>النمط الحضوري (Résidentiel)</strong>: يجب ألا يقل السن عن <strong>16 سنة</strong> كاملة.</li>
+                        </ul>
+                        <div class="code-snippet">
+$age = Carbon::parse($date_naiss)->age;
+if ($mode === 'apprentissage' && ($age < 15 || $age > 35)) {
+    throw new Exception("السن القانوني لعقد التمهين يجب أن يتراوح بين 15 و 35 سنة.");
+}
+                        </div>
+                        <p style="font-size:0.8rem; color:var(--text-muted)">الجداول المتأثرة: <span style="font-family:var(--font-en)">Candidat, Preinscrit, Apprenant</span></p>
+                    </div>
+
+                    <!-- Rule 3 -->
+                    <div class="rule-card">
+                        <div class="rule-header">
+                            <span class="rule-tag financial">الرقابة المالية</span>
+                            <h3 class="rule-title">رقابة أرصدة بنود الميزانية السنوية (Budget article limits)</h3>
+                        </div>
+                        <p class="rule-body">يمنع النظام التزام المؤسسة بنفقة مالية أو فاتورة مورد تفوق الاعتماد المالي المخصص والسنوي المحدد للمادة المحاسبية من الوزارة لمنع الوقوع في عجز الميزانية.</p>
+                        <h4 style="font-size:0.85rem; color:white; font-weight:700">المعادلة البرمجية للتحقق:</h4>
+                        <div class="code-snippet">
+if (($requested_amount + $current_commited) > $allocation) {
+    throw new Exception("الاعتمادات المالية غير كافية للالتزام بهذه النفقة.");
+}
+                        </div>
+                        <p style="font-size:0.8rem; color:var(--text-muted)">الجداول المتأثرة: <span style="font-family:var(--font-en)">BudgetArticle, Commitment</span></p>
+                    </div>
+
+                    <!-- Rule 4 -->
+                    <div class="rule-card">
+                        <div class="rule-header">
+                            <span class="rule-tag contract">العقود والقوانين</span>
+                            <h3 class="rule-title">كوتا عقود التمهين لدى الشركات المستخدمة (Employer Quota)</h3>
+                        </div>
+                        <p class="rule-body">يتحقق النظام من عدم تخطي المؤسسات الاقتصادية للعدد القانوني للمتمهنين بناءً على حجم القوى العاملة المصرح بها في كشوف الضمان الاجتماعي (CNAS) للشركة لضمان جودة التأطير.</p>
+                        <div class="code-snippet">
+// التحقق من توافق نسبة المتمهنين مع العمال المسجلين
+if ($active_apprentices >= $employeur->max_quota_allowed) {
+    throw new Exception("تجاوزت المؤسسة المستخدمة الكوتا المخصصة لها قانوناً.");
+}
+                        </div>
+                        <p style="font-size:0.8rem; color:var(--text-muted)">الجداول المتأثرة: <span style="font-family:var(--font-en)">Employeur, Candidat_contratapp</span></p>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- TAB 4: Simulator -->
+            <div id="tab-simulator" class="tab-content">
+                <div class="simulator-layout">
+                    
+                    <!-- Form input panel -->
+                    <div class="sim-panel">
+                        <h3 style="font-size:1.25rem; font-weight:800; color:white; margin-bottom:1.5rem">التحقق البرمجي التفاعلي</h3>
+                        
+                        <!-- Rule selector -->
+                        <div class="sim-selector">
+                            <div class="sim-select-btn active" data-rule="ccp">مفتاح الحساب CCP</div>
+                            <div class="sim-select-btn" data-rule="age">السن وشروط القبول</div>
+                            <div class="sim-select-btn" data-rule="budget">أرصدة الميزانية</div>
+                        </div>
+
+                        <!-- Form 1: CCP Key -->
+                        <form id="form-sim-ccp" class="sim-form active">
+                            <div class="form-group">
+                                <label for="ccp-num">رقم الحساب الجاري البريدي (دون المفتاح)</label>
+                                <input type="number" id="ccp-num" class="form-control" placeholder="مثال: 12345678" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="ccp-key">مفتاح الحساب البريدي (Cle CCP)</label>
+                                <input type="number" id="ccp-key" class="form-control" placeholder="مثال: 94" required>
+                            </div>
+                            <button type="submit" class="btn-submit">
+                                <svg style="width:20px;height:20px" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                                إجراء التحقق الحسابي
+                            </button>
+                        </form>
+
+                        <!-- Form 2: Trainee Age -->
+                        <form id="form-sim-age" class="sim-form">
+                            <div class="form-group">
+                                <label for="birth-date">تاريخ ميلاد المترشح</label>
+                                <input type="date" id="birth-date" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="training-mode">نمط وأسلوب التكوين</label>
+                                <select id="training-mode" class="form-control" required>
+                                    <option value="apprentissage">تكوين عن طريق التمهين (Apprentissage)</option>
+                                    <option value="residentiel">تكوين حضوري (Résidentiel)</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn-submit">
+                                <svg style="width:20px;height:20px" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                                التحقق من شروط السن
+                            </button>
+                        </form>
+
+                        <!-- Form 3: Budget check -->
+                        <form id="form-sim-budget" class="sim-form">
+                            <div class="form-group">
+                                <label for="budget-allocation">الاعتماد السنوي المخصص للبلد المحاسبي (د.ج)</label>
+                                <input type="number" id="budget-allocation" class="form-control" placeholder="مثال: 500000" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="budget-committed">إجمالي الالتزامات المالية السابقة (د.ج)</label>
+                                <input type="number" id="budget-committed" class="form-control" placeholder="مثال: 350000" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="budget-request">قيمة النفقة/الفاتورة المراد الالتزام بها حالياً (د.ج)</label>
+                                <input type="number" id="budget-request" class="form-control" placeholder="مثال: 120000" required>
+                            </div>
+                            <button type="submit" class="btn-submit">
+                                <svg style="width:20px;height:20px" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                                فحص توافر الاعتمادات المالية
+                            </button>
+                        </form>
+
+                    </div>
+
+                    <!-- Output display panel -->
+                    <div class="sim-result-panel" id="sim-result-container">
+                        
+                        <!-- Empty State -->
+                        <div class="result-empty" id="sim-empty-state">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364.364l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                            </svg>
+                            <h3>في انتظار إجراء الفحص والتحقق</h3>
+                            <p>أدخل البيانات المطلوبة في الاستمارة واضغط على زر التحقق لعرض النتيجة والتحليل الفني في هذا القسم.</p>
+                        </div>
+
+                        <!-- Result Display Content -->
+                        <div class="result-content" id="sim-result-content">
+                            <div class="result-icon" id="sim-result-icon">
+                                <!-- Success or error svg -->
+                            </div>
+                            <h3 class="result-title" id="sim-result-title">تم التحقق بنجاح</h3>
+                            <p class="result-message" id="sim-result-message">الرسالة التوضيحية لنتيجة التحليل البرمجي الفوري.</p>
+                            
+                            <div class="result-details" id="sim-result-details">
+                                <!-- Details listing rows -->
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- TAB 5: Interfaces Navigator -->
+            <div id="tab-interfaces" class="tab-content">
+                <div class="interfaces-grid">
+                    
+                    <!-- Card 1 -->
+                    <div class="interface-card">
+                        <div class="interface-header">
+                            <h3 class="interface-name">شاشة تسجيل الدخول والمصادقة</h3>
+                            <span class="interface-file">FEN_login.wdw</span>
+                        </div>
+                        <div class="interface-section">
+                            <span class="interface-section-title">الحقول والمدخلات الفنية</span>
+                            <div class="interface-tags">
+                                <span class="interface-tag">اسم المستخدم (Login)</span>
+                                <span class="interface-tag">كلمة المرور (Password)</span>
+                                <span class="interface-tag">رابط الخادم (HFCS Server IP)</span>
+                            </div>
+                        </div>
+                        <div class="interface-section">
+                            <span class="interface-section-title">جداول قاعدة البيانات المرتبطة</span>
+                            <div class="interface-tags">
+                                <span class="interface-tag table">Utilisateur</span>
+                                <span class="interface-tag table">Privelege</span>
+                                <span class="interface-tag table">REQ_accesuser</span>
+                            </div>
+                        </div>
+                        <div class="interface-section">
+                            <span class="interface-section-title">الوثائق والمخرجات الورقية</span>
+                            <span style="font-size:0.85rem; color:var(--text-secondary)">شاشة تأمين وتحقق من الهوية والصلاحيات الإدارية في النظام.</span>
+                        </div>
+                    </div>
+
+                    <!-- Card 2 -->
+                    <div class="interface-card">
+                        <div class="interface-header">
+                            <h3 class="interface-name">بطاقة معلومات وتعريف المؤسسة التكوينية</h3>
+                            <span class="interface-file">FEN_Etablissement.wdw</span>
+                        </div>
+                        <div class="interface-section">
+                            <span class="interface-section-title">الحقول والمدخلات الفنية</span>
+                            <div class="interface-tags">
+                                <span class="interface-tag">رمز المركز (Code Ets)</span>
+                                <span class="interface-tag">الاسم بالعربية والفرنسية</span>
+                                <span class="interface-tag">مرسوم التأسيس وتاريخه</span>
+                                <span class="interface-tag">الولاية، الدائرة والبلدية</span>
+                            </div>
+                        </div>
+                        <div class="interface-section">
+                            <span class="interface-section-title">جداول قاعدة البيانات المرتبطة</span>
+                            <div class="interface-tags">
+                                <span class="interface-tag table">Etablissement</span>
+                                <span class="interface-tag table">Wilayaa</span>
+                                <span class="interface-tag table">Commune</span>
+                                <span class="interface-tag table">Nature_Ets_F</span>
+                            </div>
+                        </div>
+                        <div class="interface-section">
+                            <span class="interface-section-title">الوثائق والمخرجات الورقية</span>
+                            <div class="interface-tags">
+                                <span class="interface-tag report">بطاقة التعريف التقنية للمركز (DFP)</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card 3 -->
+                    <div class="interface-card">
+                        <div class="interface-header">
+                            <h3 class="interface-name">شاشة إدارة الأساتذة والمشرفين</h3>
+                            <span class="interface-file">FEN_EncadrementAjout.wdw</span>
+                        </div>
+                        <div class="interface-section">
+                            <span class="interface-section-title">الحقول والمدخلات الفنية</span>
+                            <div class="interface-tags">
+                                <span class="interface-tag">الرقم التعريفي الوطني (NIN)</span>
+                                <span class="interface-tag">اللقب، الاسم، تاريخ الميلاد</span>
+                                <span class="interface-tag">الرتبة، الدرجة الحالية</span>
+                                <span class="interface-tag">الحساب البريدي CCP والمفتاح</span>
+                            </div>
+                        </div>
+                        <div class="interface-section">
+                            <span class="interface-section-title">جداول قاعدة البيانات المرتبطة</span>
+                            <div class="interface-tags">
+                                <span class="interface-tag table">Encadrement</span>
+                                <span class="interface-tag table">Grade</span>
+                                <span class="interface-tag table">SERVICE_NATIONAL</span>
+                            </div>
+                        </div>
+                        <div class="interface-section">
+                            <span class="interface-section-title">الوثائق والمخرجات الورقية</span>
+                            <div class="interface-tags">
+                                <span class="interface-tag report">شهادة العمل الرسمية (ETAT_CertificatTrvail.wde)</span>
+                                <span class="interface-tag report">بطاقة الأستاذ المهنية (ETAT_Carteprofessioneloff.wde)</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card 4 -->
+                    <div class="interface-card">
+                        <div class="interface-header">
+                            <h3 class="interface-name">شاشة إدراج وقبول عروض التكوين المهني</h3>
+                            <span class="interface-file">FEN_OffreAjoute.wdw</span>
+                        </div>
+                        <div class="interface-section">
+                            <span class="interface-section-title">الحقول والمدخلات الفنية</span>
+                            <div class="interface-tags">
+                                <span class="interface-tag">التخصص المختار (Specialite)</span>
+                                <span class="interface-tag">نمط التعليم (حضوري/تمهين)</span>
+                                <span class="interface-tag">الدورة البيداغوجية النشطة</span>
+                                <span class="interface-tag">عدد المقاعد المفتوحة</span>
+                            </div>
+                        </div>
+                        <div class="interface-section">
+                            <span class="interface-section-title">جداول قاعدة البيانات المرتبطة</span>
+                            <div class="interface-tags">
+                                <span class="interface-tag table">Offre</span>
+                                <span class="interface-tag table">Specialite</span>
+                                <span class="interface-tag table">Mode_Formation</span>
+                            </div>
+                        </div>
+                        <div class="interface-section">
+                            <span class="interface-section-title">الوثائق والمخرجات الورقية</span>
+                            <div class="interface-tags">
+                                <span class="interface-tag report">منشور الإشهار الولائي الرسمي للمناصب (ETAT_offre.wde)</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card 5 -->
+                    <div class="interface-card">
+                        <div class="interface-header">
+                            <h3 class="interface-name">شاشة احتساب الرواتب والمنح المالية</h3>
+                            <span class="interface-file">FEN_GESTION_PAYE.wdw</span>
+                        </div>
+                        <div class="interface-section">
+                            <span class="interface-section-title">الحقول والمدخلات الفنية</span>
+                            <div class="interface-tags">
+                                <span class="interface-tag">الرقم الاستدلالي للرتبة والدرجة</span>
+                                <span class="interface-tag">المنح والتعويضات الدورية</span>
+                                <span class="interface-tag">اقتطاعات الضمان الاجتماعي (9%)</span>
+                                <span class="interface-tag">اقتطاع ضريبة الدخل الإجمالي (IRG)</span>
+                            </div>
+                        </div>
+                        <div class="interface-section">
+                            <span class="interface-section-title">جداول قاعدة البيانات المرتبطة</span>
+                            <div class="interface-tags">
+                                <span class="interface-tag table">Fonctionnaire</span>
+                                <span class="interface-tag table">Indimnite_ret</span>
+                                <span class="interface-tag table">FichePaye</span>
+                            </div>
+                        </div>
+                        <div class="interface-section">
+                            <span class="interface-section-title">الوثائق والمخرجات الورقية</span>
+                            <div class="interface-tags">
+                                <span class="interface-tag report">كشوف المرتب الفردية للعمال (ETAT_FICHEPAYE.wde)</span>
+                                <span class="interface-tag report">محاضر التحويل والصب لمراكز CCP البريدية</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card 6 -->
+                    <div class="interface-card">
+                        <div class="interface-header">
+                            <h3 class="interface-name">لوحة قياس المؤشرات والإحصائيات للويب</h3>
+                            <span class="interface-file">PAGE_Tableau_de_bord.wwh</span>
+                        </div>
+                        <div class="interface-section">
+                            <span class="interface-section-title">الحقول والمدخلات الفنية</span>
+                            <div class="interface-tags">
+                                <span class="interface-tag">توزيع المتمدرسين حسب الشعب</span>
+                                <span class="interface-tag">نسب الغيابات الأسبوعية</span>
+                                <span class="interface-tag">توزيع الطلاب جغرافياً بالبلدية</span>
+                            </div>
+                        </div>
+                        <div class="interface-section">
+                            <span class="interface-section-title">جداول قاعدة البيانات المرتبطة</span>
+                            <div class="interface-tags">
+                                <span class="interface-tag table">Apprenant</span>
+                                <span class="interface-tag table">Apprenant_Absence</span>
+                                <span class="interface-tag table">Communes</span>
+                            </div>
+                        </div>
+                        <div class="interface-section">
+                            <span class="interface-section-title">الوثائق والمخرجات الورقية</span>
+                            <span style="font-size:0.85rem; color:var(--text-secondary)">شاشة ويب ديناميكية لعرض معدلات التمدرس والنشاط للمدير وأصحاب القرار.</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- Modal for Detailed Table Schema -->
+    <div class="modal-overlay" id="schema-modal">
+        <div class="modal-card">
+            <div class="modal-header">
+                <div class="modal-title-container">
+                    <h3 id="modal-table-name" style="font-size:1.35rem; font-weight:800; color:white; font-family:var(--font-en)">table_name</h3>
+                    <p id="modal-table-desc" style="font-size:0.95rem; color:var(--text-secondary)">وصف تفصيلي لدور وأهمية هذا الجدول في قواعد البيانات.</p>
+                </div>
+                <button class="modal-close-btn" id="modal-close-btn">
+                    <svg style="width:20px;height:20px" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            
+            <div style="display:flex; gap:1.5rem; margin-bottom:1.5rem; flex-wrap:wrap">
+                <div style="background:rgba(255,255,255,0.02); border:1px solid var(--border-color); padding:0.5rem 1rem; border-radius:8px; font-size:0.85rem">
+                    <span style="color:var(--text-secondary)">النظام الفرعي:</span>
+                    <strong id="modal-table-module" style="color:white; font-family:var(--font-en)">SIG</strong>
+                </div>
+                <div style="background:rgba(255,255,255,0.02); border:1px solid var(--border-color); padding:0.5rem 1rem; border-radius:8px; font-size:0.85rem">
+                    <span style="color:var(--text-secondary)">الاسم الأصلي WinDev:</span>
+                    <strong id="modal-table-windev" style="color:var(--secondary); font-family:var(--font-en)">Table_Original</strong>
+                </div>
+                <div style="background:rgba(255,255,255,0.02); border:1px solid var(--border-color); padding:0.5rem 1rem; border-radius:8px; font-size:0.85rem">
+                    <span style="color:var(--text-secondary)">نوع النطاق المعماري:</span>
+                    <strong id="modal-table-domain" style="color:var(--accent)">DDD Domain</strong>
+                </div>
+            </div>
+
+            <h4 style="font-size:1.05rem; font-weight:800; color:white; margin-bottom:0.75rem; border-right:3px solid var(--secondary); padding-right:0.5rem">المعجم الهيكلي ومطابقة الحقول (Field Mapping)</h4>
+            <div style="overflow-x:auto">
+                <table class="schema-table">
+                    <thead>
+                        <tr>
+                            <th>اسم الحقل في MySQL</th>
+                            <th>النوع في Laravel/MySQL</th>
+                            <th>هل يقبل Null؟</th>
+                            <th>دور الحقل في العلاقات</th>
+                            <th>الوصف الفني</th>
+                        </tr>
+                    </thead>
+                    <tbody id="modal-schema-rows">
+                        <!-- Dynamic rows populated by Javascript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Application Script -->
+    <script src="app.js"></script>
+</body>
+</html>
