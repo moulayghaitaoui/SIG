@@ -8,6 +8,23 @@
     <link rel="stylesheet" href="styles.css">
     <!-- Chart.js for data visualization -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Mermaid.js for database and system diagrams -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <script>
+        mermaid.initialize({
+            startOnLoad: false,
+            theme: 'dark',
+            securityLevel: 'loose',
+            themeVariables: {
+                background: '#111827',
+                primaryColor: '#6366f1',
+                primaryTextColor: '#fff',
+                lineColor: '#06b6d4',
+                secondaryColor: '#a855f7',
+                tertiaryColor: '#1f2937'
+            }
+        });
+    </script>
 </head>
 <body>
     <div class="app-container">
@@ -51,6 +68,12 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                     </svg>
                     <span>محاكي التحقق الفوري</span>
+                </div>
+                <div class="nav-item" data-tab="architecture">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                    </svg>
+                    <span>الهيكل المعماري (DDD)</span>
                 </div>
                 <div class="nav-item" data-tab="interfaces">
                     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -436,6 +459,102 @@ if ($active_apprentices >= $employeur->max_quota_allowed) {
                 </div>
             </div>
 
+            <!-- TAB: Architecture Domain -->
+            <div id="tab-architecture" class="tab-content">
+                <div class="domain-arch-container">
+                    
+                    <!-- Interactive System Integration Diagram -->
+                    <div class="system-flow-card">
+                        <h3 style="font-size:1.15rem; font-weight:800; color:white; border-right:3px solid var(--primary); padding-right:0.5rem">المخطط التوضيحي لترابط وتكامل أنظمة SIG</h3>
+                        <p style="font-size:0.9rem; color:var(--text-secondary); margin-bottom:1.5rem">يوضح هذا المخطط التفاعلي البنية التكاملية للمشاريع الفرعية ونقاط عبور البيانات المشتركة بالإضافة للمزامنة مع المنصة الوطنية.</p>
+                        
+                        <div class="system-flowchart">
+                            <div class="flow-node-group">
+                                <div class="flow-node sig" data-system="sig">
+                                    <div class="flow-node-icon">
+                                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
+                                    </div>
+                                    <span class="flow-node-title">تطبيق SIG الإداري</span>
+                                    <span class="flow-node-subtitle">الطلبة والبيداغوجيا</span>
+                                </div>
+                            </div>
+
+                            <div class="flow-node-group">
+                                <div class="flow-node sigfa" data-system="sigfa">
+                                    <div class="flow-node-icon">
+                                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M12 16v1M10 21h4a2 2 0 002-2V7a2 2 0 00-2-2h-4a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                                    </div>
+                                    <span class="flow-node-title">نظام SIGFA المالي</span>
+                                    <span class="flow-node-subtitle">الأجور والميزانية</span>
+                                </div>
+                            </div>
+
+                            <div class="flow-node-group">
+                                <div class="flow-node central" data-system="db">
+                                    <div class="flow-node-icon">
+                                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"></path></svg>
+                                    </div>
+                                    <span class="flow-node-title">قاعدة البيانات الموحدة</span>
+                                    <span class="flow-node-subtitle">MySQL 8 / Laravel</span>
+                                </div>
+                            </div>
+
+                            <div class="flow-node-group">
+                                <div class="flow-node sigpaf" data-system="sigpaf">
+                                    <div class="flow-node-icon">
+                                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                                    </div>
+                                    <span class="flow-node-title">نظام SIG-PAF</span>
+                                    <span class="flow-node-subtitle">عقود التمهين والضمان</span>
+                                </div>
+                            </div>
+
+                            <div class="flow-node-group">
+                                <div class="flow-node mihnati" data-system="mihnati">
+                                    <div class="flow-node-icon">
+                                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path></svg>
+                                    </div>
+                                    <span class="flow-node-title">منصة "مهنتي" الوطنية</span>
+                                    <span class="flow-node-subtitle">تكامل وبوابة التسجيل</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Explanatory Information block when a node is clicked -->
+                        <div class="flow-info-box" id="flow-info-text">
+                            انقر على أي عقدة (Node) في المخطط التوضيحي أعلاه لعرض التفاصيل المعمارية للربط والتكامل وحركة انتقال البيانات.
+                        </div>
+                    </div>
+
+                    <div class="arch-header-selector">
+                        <button class="arch-select-btn active" data-arch-domain="establishment">المؤسسات والهياكل (Centers)</button>
+                        <button class="arch-select-btn" data-arch-domain="specialty">الشعب والتخصصات (Specialties)</button>
+                        <button class="arch-select-btn" data-arch-domain="trainee">الطلبة والتمهين (Trainees)</button>
+                        <button class="arch-select-btn" data-arch-domain="finance">الرواتب والميزانية (Finance)</button>
+                    </div>
+
+                    <div class="domain-arch-graph">
+                        <h3 id="arch-domain-title" style="font-size:1.15rem; font-weight:800; color:white; border-right:3px solid var(--secondary); padding-right:0.5rem">نطاق المؤسسات والهياكل (Centers & Establishments Domain)</h3>
+                        <p id="arch-domain-desc" style="font-size:0.9rem; color:var(--text-secondary); margin-bottom:1rem">يدير هذا النطاق الهرم الإداري لقطاع التكوين المهني بدءاً من الوزارة وصولاً إلى الأجهزة وقاعات التدريس بالمركز.</p>
+                        
+                        <div class="arch-cards-layout" id="arch-classes-container">
+                            <!-- Populated dynamically by javascript -->
+                        </div>
+
+                        <!-- Mermaid Class Diagram visualizer -->
+                        <div style="margin-top: 2rem">
+                            <h4 style="font-size:1.05rem; font-weight:800; color:white; margin-bottom:0.75rem; border-right:3px solid var(--accent); padding-right:0.5rem">مخطط الفئات البرمجية والعلاقات البينية (Mermaid Class Diagram)</h4>
+                            <p style="font-size:0.85rem; color:var(--text-secondary); margin-bottom:1rem">رسم هندسي موجه يتم إنشاؤه ديناميكياً لتوضيح الكيانات البرمجية للنطاق المختار في Laravel 12 وطبيعة العلاقات البينية بين الجداول.</p>
+                            <div class="mermaid-container">
+                                <div class="mermaid" id="mermaid-render-area">
+                                    <!-- Dynamic class diagram loaded by JS -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- TAB 5: Interfaces Navigator -->
             <div id="tab-interfaces" class="tab-content">
                 <div class="interfaces-grid">
@@ -566,7 +685,7 @@ if ($active_apprentices >= $employeur->max_quota_allowed) {
                     <!-- Card 5 -->
                     <div class="interface-card">
                         <div class="interface-header">
-                            <h3 class="interface-name">شاشة احتساب الرواتب والمنح المالية</h3>
+                            <h3 class="interface-name">شاشة احتساب الرواتب والمня المالية</h3>
                             <span class="interface-file">FEN_GESTION_PAYE.wdw</span>
                         </div>
                         <div class="interface-section">
@@ -659,22 +778,46 @@ if ($active_apprentices >= $employeur->max_quota_allowed) {
                 </div>
             </div>
 
-            <h4 style="font-size:1.05rem; font-weight:800; color:white; margin-bottom:0.75rem; border-right:3px solid var(--secondary); padding-right:0.5rem">المعجم الهيكلي ومطابقة الحقول (Field Mapping)</h4>
-            <div style="overflow-x:auto">
-                <table class="schema-table">
-                    <thead>
-                        <tr>
-                            <th>اسم الحقل في MySQL</th>
-                            <th>النوع في Laravel/MySQL</th>
-                            <th>هل يقبل Null؟</th>
-                            <th>دور الحقل في العلاقات</th>
-                            <th>الوصف الفني</th>
-                        </tr>
-                    </thead>
-                    <tbody id="modal-schema-rows">
-                        <!-- Dynamic rows populated by Javascript -->
-                    </tbody>
-                </table>
+            <div class="modal-code-selector">
+                <button class="modal-code-tab active" data-modal-tab="schema">المعجم الهيكلي ومطابقة الحقول</button>
+                <button class="modal-code-tab" data-modal-tab="eloquent">Laravel Eloquent Model</button>
+                <button class="modal-code-tab" data-modal-tab="migration">Laravel Migration</button>
+            </div>
+            
+            <div id="modal-tab-schema" class="modal-tab-content active">
+                <h4 style="font-size:1.05rem; font-weight:800; color:white; margin-bottom:0.75rem; border-right:3px solid var(--secondary); padding-right:0.5rem">المعجم الهيكلي ومطابقة الحقول (Field Mapping)</h4>
+                <div style="overflow-x:auto">
+                    <table class="schema-table">
+                        <thead>
+                            <tr>
+                                <th>اسم الحقل في MySQL</th>
+                                <th>النوع في Laravel/MySQL</th>
+                                <th>هل يقبل Null؟</th>
+                                <th>دور الحقل في العلاقات</th>
+                                <th>الوصف الفني</th>
+                            </tr>
+                        </thead>
+                        <tbody id="modal-schema-rows">
+                            <!-- Dynamic rows populated by Javascript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="modal-tab-eloquent" class="modal-tab-content">
+                <h4 style="font-size:1.05rem; font-weight:800; color:white; margin-bottom:0.75rem; border-right:3px solid var(--primary); padding-right:0.5rem">Laravel Eloquent Model Code (PHP 8.3)</h4>
+                <p style="font-size:0.85rem; color:var(--text-secondary); margin-bottom:0.75rem">الكود البرمجي المقابل لهذا الجدول في مجلد Models لربط الكيان بالعلاقات البرمجية والتحقق.</p>
+                <div class="code-snippet" id="modal-eloquent-code" style="max-height:300px; text-align:left; direction:ltr; overflow-y:auto; white-space:pre">
+                    <!-- Dynamic code populated by Javascript -->
+                </div>
+            </div>
+
+            <div id="modal-tab-migration" class="modal-tab-content">
+                <h4 style="font-size:1.05rem; font-weight:800; color:white; margin-bottom:0.75rem; border-right:3px solid var(--accent); padding-right:0.5rem">Laravel Migration File Code (PHP 8.3)</h4>
+                <p style="font-size:0.85rem; color:var(--text-secondary); margin-bottom:0.75rem">ملف الهجرة المقابل لإنشاء الجدول، والفهارس، وقيود المفاتيح الخارجية مرتبة بالترتيب الصحيح.</p>
+                <div class="code-snippet" id="modal-migration-code" style="max-height:300px; text-align:left; direction:ltr; overflow-y:auto; white-space:pre">
+                    <!-- Dynamic code populated by Javascript -->
+                </div>
             </div>
         </div>
     </div>

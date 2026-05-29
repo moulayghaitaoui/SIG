@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     
-    // --- 1. Database Dictionary Data (Selected Representative Key Tables) ---
+    // --- 1. Database Dictionary Data (Expanded Table List) ---
     const databaseTables = [
         {
             name: 'ministere',
@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
             originalName: 'Ets_Form',
             module: 'sig',
             domain: 'establishment',
-            description: 'يمثل المؤسسات ومراكز التكوين المهني والتمهين (CFPA / INSFP) بما في ذلك ملحقات المراكز وخصائص تشغيلها.',
+            description: 'يمثل المؤسسات ومراكز التكوين المهني والتمهين (CFPA / INSFP) بما في ذلك ملحقات المراكز وخصائص تشغيلها الجغرافي والشبكي.',
             columns: [
                 { name: 'id_ets_form', type: 'BIGINT', key: 'PK', nullable: 'لا', desc: 'معرف مركز التكوين المهني' },
                 { name: 'iddfep', type: 'BIGINT', key: 'FK', nullable: 'نعم', desc: 'المديرية الولائية المشرفة على هذا المركز' },
@@ -52,6 +52,47 @@ document.addEventListener('DOMContentLoaded', () => {
             ]
         },
         {
+            name: 'locaux',
+            originalName: 'Locaux',
+            module: 'sig',
+            domain: 'establishment',
+            description: 'تسيير القاعات البيداغوجية، والورشات المهنية والمخازن التابعة للمركز لضبط وتوزيع المقاعد بيداغوجياً.',
+            columns: [
+                { name: 'id_locaux', type: 'BIGINT', key: 'PK', nullable: 'لا', desc: 'المعرف الفريد للقاعة أو المحل المهني' },
+                { name: 'id_ets_form', type: 'BIGINT', key: 'FK', nullable: 'نعم', desc: 'المؤسسة أو المركز المالك للقاعة' },
+                { name: 'nom', type: 'VARCHAR(50)', key: '', nullable: 'نعم', desc: 'اسم أو رقم القاعة البيداغوجية' },
+                { name: 'type', type: 'VARCHAR(30)', key: '', nullable: 'نعم', desc: 'نوع الفضاء (ورشة، قاعة دراسة، مخبر)' }
+            ]
+        },
+        {
+            name: 'equipement',
+            originalName: 'Equipement',
+            module: 'sig',
+            domain: 'establishment',
+            description: 'العتاد والتجهيزات والوسائل المادية المخصصة للورشات والأقسام، لمتابعة الحركات والمخزون والصيانة.',
+            columns: [
+                { name: 'id_equipement', type: 'BIGINT', key: 'PK', nullable: 'لا', desc: 'المعرف الفريد للمعدة أو الجهاز' },
+                { name: 'id_ets_form', type: 'BIGINT', key: 'FK', nullable: 'نعم', desc: 'المؤسسة المالكة للمعدة' },
+                { name: 'designat', type: 'VARCHAR(150)', key: '', nullable: 'نعم', desc: 'التسمية التقنية للمعدة' },
+                { name: 'code_barre', type: 'VARCHAR(50)', key: '', nullable: 'نعم', desc: 'الرمز الشريطي للرقابة والجرد المادي' },
+                { name: 'prix', type: 'DECIMAL(10,2)', key: '', nullable: 'نعم', desc: 'قيمة شراء المعدة' }
+            ]
+        },
+        {
+            name: 'branche',
+            originalName: 'Branche',
+            module: 'sig',
+            domain: 'specialty',
+            description: 'يحدد الشعب المهنية والقطاعات الصناعية التي تنتمي إليها التخصصات بوزارة التكوين المهني (مثال: الإعلام الآلي).',
+            columns: [
+                { name: 'id_branche', type: 'BIGINT', key: 'PK', nullable: 'لا', desc: 'المعرف الفريد للشعبة المهنية' },
+                { name: 'code', type: 'VARCHAR(5)', key: '', nullable: 'نعم', desc: 'الرمز القياسي للشعبة' },
+                { name: 'nom', type: 'VARCHAR(50)', key: '', nullable: 'نعم', desc: 'تسمية الشعبة بالعربية' },
+                { name: 'nom_fr', type: 'VARCHAR(50)', key: '', nullable: 'نعم', desc: 'تسمية الشعبة بالفرنسية' },
+                { name: 'activee', type: 'BOOLEAN', key: '', nullable: 'نعم', desc: 'مؤشر تفعيل الشعبة في المركز' }
+            ]
+        },
+        {
             name: 'specialite',
             originalName: 'Specialite',
             module: 'sig',
@@ -61,12 +102,27 @@ document.addEventListener('DOMContentLoaded', () => {
                 { name: 'id_specialite', type: 'BIGINT', key: 'PK', nullable: 'لا', desc: 'المعرف الفريد للتخصص' },
                 { name: 'code_spec', type: 'VARCHAR(15)', key: '', nullable: 'نعم', desc: 'الرمز القياسي للتخصص (مثال: INF0701)' },
                 { name: 'id_branche', type: 'BIGINT', key: 'FK', nullable: 'نعم', desc: 'معرف الشعبة المهنية التابع لها التخصص' },
-                { name: 'id_niveau_fp', type: 'BIGINT', key: 'FK', nullable: 'نعم', desc: 'معرف مستوى التكوين المهني' },
+                { name: 'id_niveau_fp', type: 'BIGINT', key: 'FK', nullable: 'نعم', desc: 'معرف مستوى التكوين المهني للشهادة' },
                 { name: 'nom', type: 'VARCHAR(250)', key: '', nullable: 'نعم', desc: 'تسمية التخصص باللغة العربية' },
                 { name: 'nom_fr', type: 'VARCHAR(250)', key: '', nullable: 'نعم', desc: 'تسمية التخصص بالفرنسية' },
                 { name: 'nbr_sem', type: 'TINYINT', key: '', nullable: 'نعم', desc: 'عدد السداسيات الدراسية الإجمالية للتخصص' },
                 { name: 'duree_m', type: 'INT', key: '', nullable: 'نعم', desc: 'المدة الإجمالية للتكوين بالأشهر (مثال: 30 شهراً لـ تقني سامي)' },
-                { name: 'id_niveau_scol', type: 'BIGINT', key: 'FK', nullable: 'نعم', desc: 'المستوى الدراسي الأدنى المطلق للالتحاق' }
+                { name: 'id_niveau_scol', type: 'BIGINT', key: 'FK', nullable: 'نعم', desc: 'المستوى الدراسي الأدنى المطلق للالتحاق بيداغوجياً' }
+            ]
+        },
+        {
+            name: 'session',
+            originalName: 'session',
+            module: 'sig',
+            domain: 'specialty',
+            description: 'يدير الدورات البيداغوجية والزمنية الرسمية المعتمدة للاكتتاب والتسجيل للدخول المدرسي (دورة سبتمبر، دورة فبراير).',
+            columns: [
+                { name: 'id_session', type: 'BIGINT', key: 'PK', nullable: 'لا', desc: 'المعرف الفريد للدورة البيداغوجية' },
+                { name: 'code', type: 'VARCHAR(6)', key: '', nullable: 'نعم', desc: 'رمز الدورة السنوية' },
+                { name: 'nom', type: 'VARCHAR(30)', key: '', nullable: 'نعم', desc: 'اسم الدورة بالعربية' },
+                { name: 'date_d', type: 'DATE', key: '', nullable: 'نعم', desc: 'تاريخ البداية الفعلية للدورة' },
+                { name: 'date_d_inscr', type: 'DATE', key: '', nullable: 'نعم', desc: 'تاريخ انطلاق تسجيل المترشحين الجدد' },
+                { name: 'date_f_inscr', type: 'DATE', key: '', nullable: 'نعم', desc: 'تاريخ اختتام عملية التسجيل' }
             ]
         },
         {
@@ -81,6 +137,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 { name: 'id_session', type: 'BIGINT', key: 'FK', nullable: 'نعم', desc: 'دورة التسجيل والدراسة الحالية بالمركز' },
                 { name: 'id_mode_formation', type: 'BIGINT', key: 'FK', nullable: 'نعم', desc: 'نمط التكوين المخصص (حضوري، تمهين، إلخ)' },
                 { name: 'nbr_poste', type: 'INT', key: '', nullable: 'نعم', desc: 'عدد المقاعد البيداغوجية المتاحة للطلبة الجدد' }
+            ]
+        },
+        {
+            name: 'section',
+            originalName: 'Section',
+            module: 'sig',
+            domain: 'specialty',
+            description: 'يمثل الأقسام والفرق البيداغوجية الفعلية التي ينضم إليها المتربصون لتلقي الدروس اليومية لكل تخصص ودورة.',
+            columns: [
+                { name: 'id_section', type: 'BIGINT', key: 'PK', nullable: 'لا', desc: 'المعرف الفريد للقسم الدراسي' },
+                { name: 'id_offre', type: 'BIGINT', key: 'FK', nullable: 'نعم', desc: 'رابط عرض التكوين المشكل للقسم' },
+                { name: 'code_section', type: 'VARCHAR(15)', key: '', nullable: 'نعم', desc: 'الرمز الرقمي المعرف للقسم' }
             ]
         },
         {
@@ -152,6 +220,33 @@ document.addEventListener('DOMContentLoaded', () => {
                 { name: 'id_apprenant', type: 'BIGINT', key: 'FK', nullable: 'نعم', desc: 'رابط الطالب المتربص المعني بالتقييم' },
                 { name: 'module', type: 'VARCHAR(50)', key: '', nullable: 'نعم', desc: 'اسم المادة البيداغوجية والوحدة التعليمية' },
                 { name: 'note', type: 'DECIMAL(4,2)', key: '', nullable: 'نعم', desc: 'نقطة المتربص في الاختبار (بين 00.00 و 20.00)' }
+            ]
+        },
+        {
+            name: 'candidat_contratapp',
+            originalName: 'candidat_contratapp',
+            module: 'sigpaf',
+            domain: 'trainee',
+            description: 'عقود التمهين والاتفاقيات المبرمة بين المتمهنين والشركات والمركز لضبط فترات التدريب الميداني والضمان CNAS.',
+            columns: [
+                { name: 'id_contratapp', type: 'BIGINT', key: 'PK', nullable: 'لا', desc: 'المعرف الفريد لعقد التمهين' },
+                { name: 'id_candidat', type: 'BIGINT', key: 'FK', nullable: 'نعم', desc: 'رابط المترشح المقبول في نمط التمهين' },
+                { name: 'id_employeur', type: 'BIGINT', key: 'FK', nullable: 'نعم', desc: 'رابط الشركة الاقتصادية الحاضنة' },
+                { name: 'date_debut', type: 'DATE', key: '', nullable: 'نعم', desc: 'تاريخ بداية عقد العمل الفعلي للمتمهن' },
+                { name: 'date_fin', type: 'DATE', key: '', nullable: 'نعم', desc: 'تاريخ انتهاء فترة التمهين القانونية' }
+            ]
+        },
+        {
+            name: 'bourse',
+            originalName: 'bourse',
+            module: 'sig',
+            domain: 'trainee',
+            description: 'يدير تسيير المنح الدراسية ومبالغ التكفل المالي المخصصة للطلبة والمتربصين المستحقين وفقاً للقانون.',
+            columns: [
+                { name: 'id_bourse', type: 'BIGINT', key: 'PK', nullable: 'لا', desc: 'المعرف الفريد للمنحة المدرسية' },
+                { name: 'id_apprenant', type: 'BIGINT', key: 'FK', nullable: 'نعم', desc: 'المتربص المستفيد من المنحة' },
+                { name: 'montant', type: 'DECIMAL(8,2)', key: '', nullable: 'نعم', desc: 'القيمة المالية للمنحة في الدورة' },
+                { name: 'taux', type: 'VARCHAR(10)', key: '', nullable: 'نعم', desc: 'نسبة المنحة (كاملة، نصف منحة)' }
             ]
         },
         {
@@ -232,6 +327,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 { name: 'nbr_salarie', type: 'INT', key: '', nullable: 'نعم', desc: 'عدد العمال المسجلين قانوناً في الضمان الاجتماعي' },
                 { name: 'max_quota_allowed', type: 'INT', key: '', nullable: 'نعم', desc: 'العدد الأقصى المسموح به للمتمهنين قانوناً بالشركة' }
             ]
+        },
+        {
+            name: 'utilisateur',
+            originalName: 'utilisateur',
+            module: 'sig',
+            domain: 'establishment',
+            description: 'حسابات وبيانات تسجيل الدخول لمستخدمي النظام الإداريين ومسؤولي التسيير البيداغوجي لضبط الصلاحيات.',
+            columns: [
+                { name: 'id_utilisateur', type: 'BIGINT', key: 'PK', nullable: 'لا', desc: 'معرف الحساب الإداري' },
+                { name: 'login', type: 'VARCHAR(50)', key: '', nullable: 'لا', desc: 'اسم المستخدم للولوج إلى النظام' },
+                { name: 'password', type: 'VARCHAR(255)', key: '', nullable: 'لا', desc: 'كلمة المرور المشفرة للحساب' },
+                { name: 'nom', type: 'VARCHAR(50)', key: '', nullable: 'نعم', desc: 'لقب الموظف صاحب الحساب' }
+            ]
         }
     ];
 
@@ -258,6 +366,10 @@ document.addEventListener('DOMContentLoaded', () => {
             title: 'محاكي ومحلل قواعد التحقق الحية',
             subtitle: 'اختبر تفاعلياً خوارزميات النظام وقواعد التحقق وقوانين العمل المطبقة'
         },
+        'architecture': {
+            title: 'الهيكل المعماري وعلاقات الفئات (DDD)',
+            subtitle: 'استكشاف النطاقات البرمجية وتصميم الفئات والعلاقات البينية لنظام Laravel 12'
+        },
         'interfaces': {
             title: 'دليل شاشات وواجهات النظام الشامل',
             subtitle: 'الربط المعماري بين شاشات WinDev ومدخلاتها في الجداول والتقارير الورقية المطبوعة'
@@ -268,28 +380,28 @@ document.addEventListener('DOMContentLoaded', () => {
         item.addEventListener('click', () => {
             const selectedTab = item.getAttribute('data-tab');
             
-            // Toggle active classes on sidebar items
             navItems.forEach(n => n.classList.remove('active'));
             item.classList.add('active');
 
-            // Toggle active views
             tabContents.forEach(content => {
                 content.classList.remove('active');
             });
             document.getElementById(`tab-${selectedTab}`).classList.add('active');
 
-            // Update titles
             if (tabDetails[selectedTab]) {
                 tabTitleEl.textContent = tabDetails[selectedTab].title;
                 tabSubtitleEl.textContent = tabDetails[selectedTab].subtitle;
+            }
+
+            // Trigger architecture render if tab selected
+            if (selectedTab === 'architecture') {
+                renderArchitectureDomain('establishment');
             }
         });
     });
 
     // --- 3. Dynamic Charts (Chart.js) ---
     const schemaCtx = document.getElementById('schemaChart').getContext('2d');
-    
-    // Custom Color Palette compatible with CSS styles
     const primaryColor = '#6366f1';
     const secondaryColor = '#06b6d4';
     const accentColor = '#a855f7';
@@ -304,11 +416,7 @@ document.addEventListener('DOMContentLoaded', () => {
             ],
             datasets: [{
                 data: [327, 86, 139],
-                backgroundColor: [
-                    primaryColor,
-                    accentColor,
-                    secondaryColor
-                ],
+                backgroundColor: [primaryColor, accentColor, secondaryColor],
                 borderWidth: 2,
                 borderColor: '#111827',
                 hoverOffset: 12
@@ -322,29 +430,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     position: 'bottom',
                     labels: {
                         color: '#94a3b8',
-                        font: {
-                            family: 'Cairo',
-                            size: 13,
-                            weight: '600'
-                        },
+                        font: { family: 'Cairo', size: 13, weight: '600' },
                         padding: 20
                     }
                 },
                 tooltip: {
                     titleFont: { family: 'Cairo', size: 14 },
-                    bodyFont: { family: 'Cairo', size: 13 },
-                    callbacks: {
-                        label: function(context) {
-                            let label = context.label || '';
-                            if (label) {
-                                label += ': ';
-                            }
-                            if (context.parsed !== undefined) {
-                                label += context.parsed + ' جدولاً أوملفاً';
-                            }
-                            return label;
-                        }
-                    }
+                    bodyFont: { family: 'Cairo', size: 13 }
                 }
             },
             cutout: '65%'
@@ -359,19 +451,14 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentFilterDomain = 'all';
     let searchQuery = '';
 
-    // Function to render table cards based on filters
     function renderTables() {
         tablesContainer.innerHTML = '';
         
         const filtered = databaseTables.filter(table => {
-            // Domain filter
             const matchesDomain = currentFilterDomain === 'all' || table.domain === currentFilterDomain;
-            
-            // Search query filter
             const matchesSearch = table.name.toLowerCase().includes(searchQuery) ||
                                   table.originalName.toLowerCase().includes(searchQuery) ||
                                   table.description.includes(searchQuery);
-                                  
             return matchesDomain && matchesSearch;
         });
 
@@ -390,8 +477,6 @@ document.addEventListener('DOMContentLoaded', () => {
         filtered.forEach(table => {
             const card = document.createElement('div');
             card.className = 'table-card';
-            
-            // Module text mapping
             const moduleText = table.module.toUpperCase();
             
             card.innerHTML = `
@@ -411,17 +496,147 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Modal Control Logic
+    // Modal Control & Code Generator Logic
     const schemaModal = document.getElementById('schema-modal');
     const modalCloseBtn = document.getElementById('modal-close-btn');
+    const modalCodeTabs = document.querySelectorAll('.modal-code-tab');
+    const modalTabContents = document.querySelectorAll('.modal-tab-content');
     
+    // Manage tabs inside modal
+    modalCodeTabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            const targetTab = tab.getAttribute('data-modal-tab');
+            
+            modalCodeTabs.forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+
+            modalTabContents.forEach(content => {
+                content.classList.remove('active');
+            });
+            document.getElementById(`modal-tab-${targetTab}`).classList.add('active');
+        });
+    });
+
+    function generateLaravelEloquentModel(table) {
+        const className = table.name.split('_').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join('');
+        
+        let relationships = '';
+        table.columns.forEach(col => {
+            if (col.key === 'FK') {
+                const relationName = col.name.replace('id_', '').replace('i_d', '');
+                const targetModel = relationName.split('_').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join('');
+                
+                relationships += `
+    /**
+     * Get the ${relationName} associated with this model.
+     */
+    public function ${relationName}(): BelongsTo
+    {
+        return $this->belongsTo(${targetModel}::class, '${col.name}');
+    }
+`;
+            }
+        });
+
+        const pkCol = table.columns.find(c => c.key === 'PK');
+        const pkString = pkCol && pkCol.name !== 'id' ? `\n    protected $primaryKey = '${pkCol.name}';\n` : '';
+
+        return `<?php
+
+namespace App\\Models;
+
+use Illuminate\\Database\\Eloquent\\Model;
+use Illuminate\\Database\\Eloquent\\Relations\\BelongsTo;
+use Illuminate\\Database\\Eloquent\\Relations\\HasMany;
+use Illuminate\\Database\\Eloquent\\SoftDeletes;
+
+class ${className} extends Model
+{
+    use SoftDeletes;
+
+    protected $table = '${table.name}';
+${pkString}
+    protected $fillable = [
+        ${table.columns.filter(c => c.key !== 'PK').map(c => `'${c.name}'`).join(',\n        ')}
+    ];
+${relationships}
+}`;
+    }
+
+    function generateLaravelMigration(table) {
+        const className = table.name.split('_').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join('');
+        
+        let fieldsBlueprint = '';
+        table.columns.forEach(col => {
+            if (col.key === 'PK') {
+                fieldsBlueprint += `            $table->id('${col.name}');\n`;
+            } else if (col.key === 'FK') {
+                const targetTable = col.name.replace('id_', '').replace('i_d', '');
+                const nullableMethod = col.nullable === 'نعم' ? '->nullable()' : '';
+                fieldsBlueprint += `            $table->foreignId('${col.name}')${nullableMethod}->constrained('${targetTable}')->onDelete('cascade');\n`;
+            } else {
+                let colMethod = '$table->string';
+                if (col.type.startsWith('VARCHAR')) {
+                    const sizeMatch = col.type.match(/\\((\\d+)\\)/);
+                    const size = sizeMatch ? sizeMatch[1] : 255;
+                    colMethod = `$table->string('${col.name}', ${size})`;
+                } else if (col.type === 'BIGINT') {
+                    colMethod = `$table->bigInteger('${col.name}')`;
+                } else if (col.type === 'INT') {
+                    colMethod = `$table->integer('${col.name}')`;
+                } else if (col.type === 'TINYINT') {
+                    colMethod = `$table->tinyInteger('${col.name}')`;
+                } else if (col.type === 'BOOLEAN') {
+                    colMethod = `$table->boolean('${col.name}')`;
+                } else if (col.type === 'DATE') {
+                    colMethod = `$table->date('${col.name}')`;
+                } else if (col.type.startsWith('DECIMAL')) {
+                    const decMatch = col.type.match(/\\((\\d+),(\\d+)\\)/);
+                    const p1 = decMatch ? decMatch[1] : 8;
+                    const p2 = decMatch ? decMatch[2] : 2;
+                    colMethod = `$table->decimal('${col.name}', ${p1}, ${p2})`;
+                }
+                
+                const nullableMethod = col.nullable === 'نعم' ? '->nullable()' : '';
+                fieldsBlueprint += `            ${colMethod}${nullableMethod};\n`;
+            }
+        });
+
+        return `<?php
+
+use Illuminate\\Database\\Migrations\\Migration;
+use Illuminate\\Database\\Schema\\Blueprint;
+use Illuminate\\Support\\Facades\\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('${table.name}', function (Blueprint $table) {
+${fieldsBlueprint}            $table->timestamps();
+            $table->softDeletes();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('${table.name}');
+    }
+};`;
+    }
+
     function openTableModal(table) {
         document.getElementById('modal-table-name').textContent = table.name;
         document.getElementById('modal-table-desc').textContent = table.description;
         document.getElementById('modal-table-windev').textContent = table.originalName;
         document.getElementById('modal-table-module').textContent = table.module.toUpperCase();
         
-        // Domain text mapping in Arabic
         const domainMap = {
             'establishment': 'المؤسسات والهياكل (Centers)',
             'specialty': 'التخصصات وعروض التكوين (Specialties)',
@@ -430,14 +645,20 @@ document.addEventListener('DOMContentLoaded', () => {
         };
         document.getElementById('modal-table-domain').textContent = domainMap[table.domain] || table.domain;
         
-        // Populate modal rows
+        modalCodeTabs.forEach(t => t.classList.remove('active'));
+        document.querySelector('[data-modal-tab="schema"]').classList.add('active');
+        modalTabContents.forEach(c => c.classList.remove('active'));
+        document.getElementById('modal-tab-schema').classList.add('active');
+
+        document.getElementById('modal-eloquent-code').textContent = generateLaravelEloquentModel(table);
+        document.getElementById('modal-migration-code').textContent = generateLaravelMigration(table);
+
         const tbody = document.getElementById('modal-schema-rows');
         tbody.innerHTML = '';
         
         table.columns.forEach(col => {
             const tr = document.createElement('tr');
             
-            // Key badge formatting
             let keyText = '';
             if (col.key === 'PK') {
                 keyText = `<span class="key-badge pk">PK</span>`;
@@ -458,7 +679,6 @@ document.addEventListener('DOMContentLoaded', () => {
         schemaModal.classList.add('open');
     }
 
-    // Close Modal Event handlers
     modalCloseBtn.addEventListener('click', () => schemaModal.classList.remove('open'));
     schemaModal.addEventListener('click', (e) => {
         if (e.target === schemaModal) {
@@ -466,7 +686,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Search and tab filters attachment
     schemaSearchInput.addEventListener('input', (e) => {
         searchQuery = e.target.value.toLowerCase().trim();
         renderTables();
@@ -481,23 +700,476 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Initial render
     renderTables();
 
-    // --- 5. Interactive Validation Simulator ---
+    // --- 5. Domain Architecture Class Explorer & DDD diagrams ---
+    const archSelectBtns = document.querySelectorAll('.arch-select-btn');
+    const archClassesContainer = document.getElementById('arch-classes-container');
+    const archDomainTitle = document.getElementById('arch-domain-title');
+    const archDomainDesc = document.getElementById('arch-domain-desc');
+    const mermaidArea = document.getElementById('mermaid-render-area');
+
+    const domainDetails = {
+        'establishment': {
+            title: 'نطاق المؤسسات والهياكل (Centers & Establishments Domain)',
+            desc: 'يدير هذا النطاق الهرم التنظيمي لقطاع التكوين المهني بدءاً من الوزارات الإشرافية إلى المديريات الولائية (DFEP)، ومراكز التكوين والمحلات والتجهيزات المادية داخلها.',
+            mermaidMarkup: `classDiagram
+    direction LR
+    class Ministere {
+        +bigint id_minister
+        +string nom
+        +string adrs
+    }
+    class Dfep {
+        +bigint iddfep
+        +bigint id_minister
+        +string nom
+    }
+    class Ets_Form {
+        +bigint id_ets_form
+        +bigint iddfep
+        +string nom
+        +string code
+    }
+    class Locaux {
+        +bigint id_locaux
+        +bigint id_ets_form
+        +string nom
+    }
+    Ministere "1" --* "0..*" Dfep : contains
+    Dfep "1" --* "0..*" Ets_Form : supervises
+    Ets_Form "1" --* "0..*" Locaux : contains`,
+            classes: [
+                {
+                    name: 'Ministere',
+                    arabic: 'الوزارة الوصية',
+                    fields: [
+                        { name: 'id_minister', type: 'bigint' },
+                        { name: 'nom', type: 'string' },
+                        { name: 'adrs', type: 'string' }
+                    ],
+                    relations: [
+                        { type: 'hasMany', target: 'Dfep' }
+                    ]
+                },
+                {
+                    name: 'Dfep',
+                    arabic: 'المديرية الولائية',
+                    fields: [
+                        { name: 'iddfep', type: 'bigint' },
+                        { name: 'id_minister', type: 'bigint (FK)' },
+                        { name: 'nom', type: 'string' }
+                    ],
+                    relations: [
+                        { type: 'belongsTo', target: 'Ministere' },
+                        { type: 'hasMany', target: 'Ets_Form' }
+                    ]
+                },
+                {
+                    name: 'Ets_Form',
+                    arabic: 'مؤسسة التكوين',
+                    fields: [
+                        { name: 'id_ets_form', type: 'bigint' },
+                        { name: 'iddfep', type: 'bigint (FK)' },
+                        { name: 'nom', type: 'string' },
+                        { name: 'code', type: 'string' }
+                    ],
+                    relations: [
+                        { type: 'belongsTo', target: 'Dfep' },
+                        { type: 'hasMany', target: 'Locaux' },
+                        { type: 'hasMany', target: 'Equipement' }
+                    ]
+                },
+                {
+                    name: 'Locaux',
+                    arabic: 'القاعات والورشات',
+                    fields: [
+                        { name: 'id_locaux', type: 'bigint' },
+                        { name: 'id_ets_form', type: 'bigint (FK)' },
+                        { name: 'nom', type: 'string' }
+                    ],
+                    relations: [
+                        { type: 'belongsTo', target: 'Ets_Form' }
+                    ]
+                }
+            ]
+        },
+        'specialty': {
+            title: 'نطاق الشعب والتخصصات وعروض التكوين (Specialties & Offers)',
+            desc: 'يدير هذا النطاق الهياكل التعليمية والبيداغوجية، مع تحديد الشعب والتخصصات المفتوحة لكل دورة دراسية، وتهيئة الفروع التعليمية.',
+            mermaidMarkup: `classDiagram
+    direction TB
+    class Branche {
+        +bigint id_branche
+        +string code
+        +string nom
+    }
+    class Specialite {
+        +bigint id_specialite
+        +bigint id_branche
+        +string nom
+    }
+    class Offre {
+        +bigint id_offre
+        +bigint id_specialite
+        +bigint id_session
+    }
+    class Session {
+        +bigint id_session
+        +string code
+        +string nom
+    }
+    class Section {
+        +bigint id_section
+        +bigint id_offre
+        +string code_section
+    }
+    Branche "1" --* "0..*" Specialite : groups
+    Specialite "1" --* "0..*" Offre : defines
+    Session "1" --* "0..*" Offre : timetables
+    Offre "1" --* "0..*" Section : creates`,
+            classes: [
+                {
+                    name: 'Branche',
+                    arabic: 'الشعبة المهنية',
+                    fields: [
+                        { name: 'id_branche', type: 'bigint' },
+                        { name: 'code', type: 'string' },
+                        { name: 'nom', type: 'string' }
+                    ],
+                    relations: [
+                        { type: 'hasMany', target: 'Specialite' }
+                    ]
+                },
+                {
+                    name: 'Specialite',
+                    arabic: 'التخصص البيداغوجي',
+                    fields: [
+                        { name: 'id_specialite', type: 'bigint' },
+                        { name: 'id_branche', type: 'bigint (FK)' },
+                        { name: 'nom', type: 'string' }
+                    ],
+                    relations: [
+                        { type: 'belongsTo', target: 'Branche' },
+                        { type: 'hasMany', target: 'Offre' }
+                    ]
+                },
+                {
+                    name: 'Offre',
+                    arabic: 'عرض التكوين',
+                    fields: [
+                        { name: 'id_offre', type: 'bigint' },
+                        { name: 'id_specialite', type: 'bigint (FK)' },
+                        { name: 'id_session', type: 'bigint (FK)' }
+                    ],
+                    relations: [
+                        { type: 'belongsTo', target: 'Specialite' },
+                        { type: 'belongsTo', target: 'Session' },
+                        { type: 'hasMany', target: 'Section' }
+                    ]
+                },
+                {
+                    name: 'Session',
+                    arabic: 'الدورة الدراسية',
+                    fields: [
+                        { name: 'id_session', type: 'bigint' },
+                        { name: 'code', type: 'string' },
+                        { name: 'nom', type: 'string' }
+                    ],
+                    relations: [
+                        { type: 'hasMany', target: 'Offre' }
+                    ]
+                }
+            ]
+        },
+        'trainee': {
+            title: 'نطاق المترشحين والطلبة وعقود التمهين (Trainees & Apprenticeship)',
+            desc: 'يدير الملفات والعمليات البيداغوجية للطلاب من التسجيل الأولي والمقابلة، إلى القبول والتوزيع الدراسي والغياب والدرجات والتعاقد المهني.',
+            mermaidMarkup: `classDiagram
+    direction LR
+    class Candidat {
+        +bigint id_candidat
+        +string nom
+        +string nin
+    }
+    class Preinscrit {
+        +bigint id_preinscrit
+        +bigint id_candidat
+        +bigint id_offre
+    }
+    class Apprenant {
+        +bigint id_apprenant
+        +string num_carte
+        +bigint id_section
+    }
+    class Apprenant_Absence {
+        +bigint id_absence
+        +bigint id_apprenant
+        +date date_absence
+    }
+    Candidat "1" --o "1" Preinscrit : applies
+    Preinscrit "1" ..> "1" Apprenant : enrolled
+    Apprenant "1" --* "0..*" Apprenant_Absence : incurs`,
+            classes: [
+                {
+                    name: 'Candidat',
+                    arabic: 'المترشح',
+                    fields: [
+                        { name: 'id_candidat', type: 'bigint' },
+                        { name: 'nom', type: 'string' },
+                        { name: 'nin', type: 'string' }
+                    ],
+                    relations: [
+                        { type: 'hasOne', target: 'Preinscrit' }
+                    ]
+                },
+                {
+                    name: 'Preinscrit',
+                    arabic: 'التسجيل الأولي',
+                    fields: [
+                        { name: 'id_preinscrit', type: 'bigint' },
+                        { name: 'id_candidat', type: 'bigint (FK)' },
+                        { name: 'id_offre', type: 'bigint (FK)' }
+                    ],
+                    relations: [
+                        { type: 'belongsTo', target: 'Candidat' },
+                        { type: 'belongsTo', target: 'Offre' }
+                    ]
+                },
+                {
+                    name: 'Apprenant',
+                    arabic: 'طالب متربص',
+                    fields: [
+                        { name: 'id_apprenant', type: 'bigint' },
+                        { name: 'num_carte', type: 'string' },
+                        { name: 'id_section', type: 'bigint (FK)' }
+                    ],
+                    relations: [
+                        { type: 'belongsTo', target: 'Section' },
+                        { type: 'hasMany', target: 'Apprenant_Absence' },
+                        { type: 'hasMany', target: 'Evaluation' }
+                    ]
+                },
+                {
+                    name: 'Apprenant_Absence',
+                    arabic: 'الغيابات اليومية',
+                    fields: [
+                        { name: 'id_absence', type: 'bigint' },
+                        { name: 'id_apprenant', type: 'bigint (FK)' },
+                        { name: 'date_absence', type: 'date' }
+                    ],
+                    relations: [
+                        { type: 'belongsTo', target: 'Apprenant' }
+                    ]
+                }
+            ]
+        },
+        'finance': {
+            title: 'نطاق الرواتب والميزانية المالية (SIGFA Financial Domain)',
+            desc: 'يدير شؤون المحاسبة والمالية بالمركز، متضمناً حساب رواتب الأساتذة والعمال، وتوزيع أرصدة الميزانية، وصرف الالتزامات للموردين.',
+            mermaidMarkup: `classDiagram
+    direction TB
+    class Fonctionnaire {
+        +bigint id_fonctionnaire
+        +string ccp
+        +bigint id_grade
+    }
+    class Grade {
+        +bigint id_grade
+        +string libelle
+        +decimal salaire_base
+    }
+    class FichePaye {
+        +bigint id_fiche_paye
+        +bigint id_fonctionnaire
+        +decimal net_a_payer
+    }
+    class BudgetArticle {
+        +bigint id_budget_article
+        +string code_article
+        +decimal allocation
+    }
+    class Commitment {
+        +bigint id_commitment
+        +bigint id_budget_article
+        +decimal amount
+    }
+    Grade "1" --* "0..*" Fonctionnaire : ranks
+    Fonctionnaire "1" --* "0..*" FichePaye : compiles
+    BudgetArticle "1" --* "0..*" Commitment : reserves`,
+            classes: [
+                {
+                    name: 'Fonctionnaire',
+                    arabic: 'الموظف/الأستاذ',
+                    fields: [
+                        { name: 'id_fonctionnaire', type: 'bigint' },
+                        { name: 'ccp', type: 'string' },
+                        { name: 'id_grade', type: 'bigint (FK)' }
+                    ],
+                    relations: [
+                        { type: 'belongsTo', target: 'Grade' },
+                        { type: 'hasMany', target: 'FichePaye' }
+                    ]
+                },
+                {
+                    name: 'Grade',
+                    arabic: 'الرتبة الاستدلالية',
+                    fields: [
+                        { name: 'id_grade', type: 'bigint' },
+                        { name: 'libelle', type: 'string' },
+                        { name: 'salaire_base', type: 'decimal' }
+                    ],
+                    relations: [
+                        { type: 'hasMany', target: 'Fonctionnaire' }
+                    ]
+                },
+                {
+                    name: 'FichePaye',
+                    arabic: 'كشف الراتب',
+                    fields: [
+                        { name: 'id_fiche_paye', type: 'bigint' },
+                        { name: 'id_fonctionnaire', type: 'bigint (FK)' },
+                        { name: 'net_a_payer', type: 'decimal' }
+                    ],
+                    relations: [
+                        { type: 'belongsTo', target: 'Fonctionnaire' }
+                    ]
+                },
+                {
+                    name: 'BudgetArticle',
+                    arabic: 'بند الميزانية',
+                    fields: [
+                        { name: 'id_budget_article', type: 'bigint' },
+                        { name: 'code_article', type: 'string' },
+                        { name: 'allocation', type: 'decimal' }
+                    ],
+                    relations: [
+                        { type: 'hasMany', target: 'Commitment' }
+                    ]
+                }
+            ]
+        }
+    };
+
+    function renderArchitectureDomain(domainName) {
+        const domain = domainDetails[domainName];
+        if (!domain) return;
+
+        archDomainTitle.textContent = domain.title;
+        archDomainDesc.textContent = domain.desc;
+        archClassesContainer.innerHTML = '';
+
+        // Render graphical class cards
+        domain.classes.forEach(cls => {
+            const card = document.createElement('div');
+            card.className = 'arch-class-card';
+            
+            let fieldsHtml = '';
+            cls.fields.forEach(field => {
+                fieldsHtml += `
+                    <div class="arch-field-item">
+                        <span class="field-name">+${field.name}</span>
+                        <span class="field-type">${field.type}</span>
+                    </div>
+                `;
+            });
+
+            let relsHtml = '';
+            cls.relations.forEach(rel => {
+                relsHtml += `
+                    <div class="arch-relation-item">
+                        <svg style="width:12px;height:12px" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                        </svg>
+                        <span class="relation-type">${rel.type}</span>
+                        <span class="relation-target">${rel.target}</span>
+                    </div>
+                `;
+            });
+
+            card.innerHTML = `
+                <div class="arch-class-name">
+                    ${cls.name}
+                    <span>${cls.arabic}</span>
+                </div>
+                <div class="arch-class-fields">
+                    ${fieldsHtml}
+                </div>
+                <div class="arch-class-relations">
+                    ${relsHtml}
+                </div>
+            `;
+            archClassesContainer.appendChild(card);
+        });
+
+        // Dynamic Mermaid Diagram Renderer
+        if (window.mermaid) {
+            // Clear and rebuild mermaid node to force re-render
+            const parent = mermaidArea.parentElement;
+            parent.innerHTML = `<div class="mermaid" id="mermaid-render-area"></div>`;
+            const newArea = document.getElementById('mermaid-render-area');
+            
+            newArea.textContent = domain.mermaidMarkup;
+            window.mermaid.init(undefined, newArea);
+        }
+    }
+
+    archSelectBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            archSelectBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            const targetDomain = btn.getAttribute('data-arch-domain');
+            renderArchitectureDomain(targetDomain);
+        });
+    });
+
+    // --- 6. Interactive System Flowchart Details Clicker ---
+    const flowNodes = document.querySelectorAll('.flow-node');
+    const flowInfoText = document.getElementById('flow-info-text');
+
+    const flowSystemExplanations = {
+        'sig': '<strong>تطبيق SIG الإداري والبيداغوجي (Desktop Client):</strong> هو النواة المركزية لمكاتب التسيير والدراسة بالمركز. يدير بطاقات الطلبة، والغيابات، والتوجيه، والامتحانات، والجرد المادي للمقاعد والورشات والتجهيزات. يغذي قاعدة البيانات بكل المدخلات البيداغوجية واليومية.',
+        'sigfa': '<strong>نظام الرواتب والميزانية العامة (SIGFA):</strong> يمثل تطبيق المصالح المالية للمؤسسة. يحتسب شهرياً أجور الأساتذة والموظفين بالاعتماد على سلم الرتب والدرجات ومطابقتها للمفتاح البريدي CCP، كما يتحقق من عدم تجاوز اعتمادات بنود الميزانية المخصصة سنوياً.',
+        'db': '<strong>قاعدة البيانات الموحدة (MySQL 8 / Eloquent):</strong> المستودع المركزي المشترك للبيانات بعد ترحيله بالكامل توبولوجياً من WinDev HFSQL. يدعم سلامة العلاقات البينية (Integrity Constraints) ويمثل قاعدة الارتكاز لربط جميع المنصات المحلية والسحابية.',
+        'sigpaf': '<strong>نظام PAF لعقود التمهين (Apprenticeship Contracts):</strong> يركز على تسيير المتمهنين الميدانيين. يقوم بإبرام عقود التدريب الثلاثية مع الشركات المستخدمة، وتوزيع وتصريح المتمهنين لدى الضمان الاجتماعي (CNAS)، ومتابعة ومراقبة كوتا المتمهنين المتاحة.',
+        'mihnati': '<strong>بوابة التسجيل والمنصة الوطنية "مهنتي" (Mihnati API):</strong> تمثل الواجهة السحابية التكاملية مع الوزارة. يتم استيراد الدليل الوطني الرسمي للشعب والتخصصات والبلديات (عبر ملفات JSON) لتوحيد المدخلات، وتصدير قوائم المترشحين الجدد المقبولين مباشرة لقاعدة بيانات المركز.'
+    };
+
+    flowNodes.forEach(node => {
+        node.addEventListener('click', () => {
+            const system = node.getAttribute('data-system');
+            
+            // Highlight node temporarily
+            flowNodes.forEach(n => n.style.transform = 'none');
+            node.style.transform = 'translateY(-5px) scale(1.05)';
+            node.style.borderColor = 'var(--secondary)';
+            
+            if (flowSystemExplanations[system]) {
+                flowInfoText.innerHTML = flowSystemExplanations[system];
+                // Apply soft visual pulse to information box
+                flowInfoText.style.borderColor = 'var(--secondary)';
+                flowInfoText.style.background = 'rgba(6, 182, 212, 0.05)';
+                setTimeout(() => {
+                    flowInfoText.style.borderColor = 'var(--border-color)';
+                    flowInfoText.style.background = 'rgba(255, 255, 255, 0.02)';
+                }, 1000);
+            }
+        });
+    });
+
+
+    // --- 7. Interactive Validation Simulator ---
     const simSelectBtns = document.querySelectorAll('.sim-select-btn');
     const simForms = document.querySelectorAll('.sim-form');
     const simResultContainer = document.getElementById('sim-result-container');
     const simEmptyState = document.getElementById('sim-empty-state');
     const simResultContent = document.getElementById('sim-result-content');
     
-    // Result elements
     const resultIconEl = document.getElementById('sim-result-icon');
     const resultTitleEl = document.getElementById('sim-result-title');
     const resultMessageEl = document.getElementById('sim-result-message');
     const resultDetailsEl = document.getElementById('sim-result-details');
 
-    // Tab switching for simulation tools
     simSelectBtns.forEach(btn => {
         btn.addEventListener('click', () => {
             const targetRule = btn.getAttribute('data-rule');
@@ -508,16 +1180,13 @@ document.addEventListener('DOMContentLoaded', () => {
             simForms.forEach(form => form.classList.remove('active'));
             document.getElementById(`form-sim-${targetRule}`).classList.add('active');
             
-            // Reset result panel to empty
             simEmptyState.style.display = 'flex';
             simResultContent.style.display = 'none';
             simResultContainer.className = 'sim-result-panel';
         });
     });
 
-    // Submits and Rule Validators
-    
-    // Validator 1: CCP Modulo 97 calculation
+    // Form 1: CCP Modulo 97 calculation
     document.getElementById('form-sim-ccp').addEventListener('submit', (e) => {
         e.preventDefault();
         const ccpNum = document.getElementById('ccp-num').value.trim();
@@ -525,12 +1194,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (!ccpNum || isNaN(ccpKey)) return;
 
-        // Perform calculation
         const ccpVal = parseInt(ccpNum);
         const calculatedKey = 97 - (ccpVal * 100) % 97;
         const isValid = ccpKey === calculatedKey;
 
-        // Show results
         showSimulationResult({
             success: isValid,
             title: isValid ? 'مفتاح حساب بريدي صالح' : 'مفتاح حساب بريدي غير مطابق',
@@ -538,7 +1205,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 `رقم الحساب البريدي والمفتاح متطابقان تماماً وخاليان من أخطاء الإدخال الحسابية. يقبل النظام التحويل المالي للموظف شهرياً.` :
                 `أثبت الفحص الحسابي عدم تطابق رقم الحساب بالمفتاح البريدي الثنائي. الحساب المعطى غير صالح للصب وسيمنع النظام إدخاله.`,
             details: [
-                { label: 'رقم الحساب الجاريCCP', value: ccpNum, en: true },
+                { label: 'رقم الحساب الجاري CCP', value: ccpNum, en: true },
                 { label: 'المفتاح المدخل', value: ccpKey.toString(), en: true },
                 { label: 'المفتاح المحسوب بالنظام', value: calculatedKey.toString(), en: true },
                 { label: 'معادلة الفحص والرقابة', value: '97 - (CCP_Number * 100) % 97', en: true }
@@ -546,7 +1213,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Validator 2: Admission age constraint
+    // Form 2: Trainee Age
     document.getElementById('form-sim-age').addEventListener('submit', (e) => {
         e.preventDefault();
         const birthDateVal = document.getElementById('birth-date').value;
@@ -554,7 +1221,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (!birthDateVal) return;
 
-        // Calculate age
         const today = new Date();
         const birthDate = new Date(birthDateVal);
         let age = today.getFullYear() - birthDate.getFullYear();
@@ -567,18 +1233,16 @@ document.addEventListener('DOMContentLoaded', () => {
         let rejectReason = '';
 
         if (mode === 'apprentissage') {
-            // Apprenticeship: 15 to 35 years inclusive
             if (age >= 15 && age <= 35) {
                 isAccepted = true;
             } else {
-                rejectReason = 'عمر المتمهن في التمهين الخارجي يجب أن يكون بين 15 و 35 سنة قانوناً حسب التشريع الجزائري.';
+                rejectReason = 'عمر المتمهن في التمهين يجب أن يتراوح بين 15 و 35 سنة قانوناً حسب التشريع الجزائري لعقود العمل.';
             }
         } else if (mode === 'residentiel') {
-            // Residential: min 16 years
             if (age >= 16) {
                 isAccepted = true;
             } else {
-                rejectReason = 'السن الأدنى للتكوين الإقامي الحضوري بالمركز هو 16 سنة كاملة للالتحاق البيداغوجي.';
+                rejectReason = 'السن الأدنى المسموح به للتكوين الإقامي الحضوري بالمركز هو 16 سنة كاملة للالتحاق بيداغوجياً.';
             }
         }
 
@@ -597,7 +1261,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Validator 3: Financial budget article limits
+    // Form 3: Budget check
     document.getElementById('form-sim-budget').addEventListener('submit', (e) => {
         e.preventDefault();
         const allocation = parseFloat(document.getElementById('budget-allocation').value);
@@ -624,16 +1288,12 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Helper function to display results in output panel
     function showSimulationResult(data) {
-        // Toggle view visibility
         simEmptyState.style.display = 'none';
         simResultContent.style.display = 'flex';
 
-        // Add glow animation border
         simResultContainer.className = 'sim-result-panel ' + (data.success ? 'success' : 'error');
         
-        // Apply temporary shake animation to error results for micro-interaction
         if (!data.success) {
             simResultContainer.classList.add('shake');
             setTimeout(() => {
@@ -641,12 +1301,10 @@ document.addEventListener('DOMContentLoaded', () => {
             }, 500);
         }
 
-        // Set title and message
         resultTitleEl.textContent = data.title;
         resultTitleEl.className = 'result-title ' + (data.success ? 'success' : 'error');
         resultMessageEl.textContent = data.message;
 
-        // Set icon
         resultIconEl.className = 'result-icon ' + (data.success ? 'success' : 'error');
         if (data.success) {
             resultIconEl.innerHTML = `
@@ -662,7 +1320,6 @@ document.addEventListener('DOMContentLoaded', () => {
             `;
         }
 
-        // Populate detail rows
         resultDetailsEl.innerHTML = '';
         data.details.forEach(row => {
             const div = document.createElement('div');

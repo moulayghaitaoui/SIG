@@ -1079,6 +1079,341 @@ header {
     background: rgba(16, 185, 129, 0.05);
 }
 
+/* Modal detailed tabs for Laravel code generation */
+.modal-code-selector {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1.25rem;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 0.75rem;
+}
+
+.modal-code-tab {
+    padding: 0.4rem 0.85rem;
+    border-radius: 6px;
+    background: transparent;
+    border: 1px solid transparent;
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.modal-code-tab:hover {
+    color: var(--text-primary);
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.modal-code-tab.active {
+    background: rgba(99, 102, 241, 0.1);
+    border-color: rgba(99, 102, 241, 0.3);
+    color: var(--primary);
+}
+
+.modal-tab-content {
+    display: none;
+}
+
+.modal-tab-content.active {
+    display: block;
+}
+
+/* Domain Architecture UI classes */
+.domain-arch-container {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.arch-header-selector {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    background: rgba(255, 255, 255, 0.02);
+    padding: 0.5rem;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    width: fit-content;
+}
+
+.arch-select-btn {
+    padding: 0.5rem 1.25rem;
+    border-radius: 8px;
+    border: none;
+    background: transparent;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.arch-select-btn:hover {
+    color: var(--text-primary);
+}
+
+.arch-select-btn.active {
+    background: var(--primary);
+    color: white;
+    box-shadow: 0 4px 15px rgba(99, 102, 241, 0.2);
+}
+
+.domain-arch-graph {
+    background: rgba(15, 23, 42, 0.4);
+    border: 1px solid var(--border-color);
+    border-radius: 24px;
+    padding: 2rem;
+    min-height: 450px;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.arch-cards-layout {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.5rem;
+    position: relative;
+}
+
+.arch-class-card {
+    background: var(--bg-card);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    overflow: hidden;
+    transition: var(--transition);
+}
+
+.arch-class-card:hover {
+    border-color: var(--primary);
+    transform: translateY(-2px);
+}
+
+.arch-class-name {
+    background: rgba(255, 255, 255, 0.03);
+    border-bottom: 1px solid var(--border-color);
+    padding: 0.75rem 1rem;
+    font-weight: 800;
+    color: white;
+    font-family: var(--font-en);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.arch-class-name span {
+    font-size: 0.7rem;
+    color: var(--secondary);
+    font-family: var(--font-ar);
+    background: rgba(6, 182, 212, 0.1);
+    padding: 0.15rem 0.4rem;
+    border-radius: 4px;
+}
+
+.arch-class-fields {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    font-size: 0.8rem;
+    font-family: var(--font-en);
+}
+
+.arch-field-item {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid rgba(255,255,255,0.02);
+    padding-bottom: 0.2rem;
+}
+
+.arch-field-item .field-name {
+    color: #e2e8f0;
+}
+
+.arch-field-item .field-type {
+    color: var(--text-muted);
+}
+
+.arch-class-relations {
+    background: rgba(15, 23, 42, 0.6);
+    border-top: 1px solid var(--border-color);
+    padding: 0.75rem 1rem;
+    font-size: 0.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.arch-relation-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-secondary);
+}
+
+.arch-relation-item svg {
+    width: 12px;
+    height: 12px;
+    color: var(--accent);
+}
+
+.arch-relation-item .relation-type {
+    font-family: var(--font-en);
+    font-weight: 700;
+    color: var(--primary);
+}
+
+.arch-relation-item .relation-target {
+    font-family: var(--font-en);
+    color: white;
+}
+
+/* System Flowchart Styling */
+.system-flow-card {
+    background: rgba(15, 23, 42, 0.4);
+    border: 1px solid var(--border-color);
+    border-radius: 24px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+}
+
+.system-flowchart {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    padding: 2rem 0;
+    margin-top: 1.5rem;
+    flex-wrap: wrap;
+    gap: 2rem;
+}
+
+.flow-node-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    z-index: 10;
+}
+
+.flow-node {
+    width: 130px;
+    height: 130px;
+    border-radius: 24px;
+    background: var(--bg-card);
+    border: 2px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 1rem;
+    cursor: pointer;
+    transition: var(--transition);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.flow-node:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 10px 25px rgba(99, 102, 241, 0.2);
+}
+
+.flow-node.central {
+    width: 160px;
+    height: 160px;
+    border-color: var(--secondary);
+    background: linear-gradient(135deg, rgba(6, 182, 212, 0.15), rgba(99, 102, 241, 0.05));
+    box-shadow: 0 0 30px rgba(6, 182, 212, 0.15);
+}
+
+.flow-node.central:hover {
+    border-color: var(--secondary);
+    box-shadow: 0 0 40px rgba(6, 182, 212, 0.3);
+}
+
+.flow-node.sig { border-color: var(--primary); }
+.flow-node.sigfa { border-color: var(--accent); }
+.flow-node.sigpaf { border-color: var(--success); }
+.flow-node.mihnati { 
+    border-color: #f59e0b; 
+    background: rgba(245, 158, 11, 0.05);
+}
+
+.flow-node-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0.5rem;
+}
+
+.flow-node.central .flow-node-icon { background: rgba(6, 182, 212, 0.1); color: var(--secondary); }
+.flow-node.sig .flow-node-icon { background: rgba(99, 102, 241, 0.1); color: var(--primary); }
+.flow-node.sigfa .flow-node-icon { background: rgba(168, 85, 247, 0.1); color: var(--accent); }
+.flow-node.sigpaf .flow-node-icon { background: rgba(16, 185, 129, 0.1); color: var(--success); }
+.flow-node.mihnati .flow-node-icon { background: rgba(245, 158, 11, 0.1); color: #f59e0b; }
+
+.flow-node-icon svg {
+    width: 22px;
+    height: 22px;
+}
+
+.flow-node-title {
+    font-size: 0.85rem;
+    font-weight: 800;
+    color: white;
+}
+
+.flow-node-subtitle {
+    font-size: 0.7rem;
+    color: var(--text-secondary);
+    margin-top: 0.15rem;
+}
+
+/* Connecting flow lines */
+.flow-connection {
+    position: absolute;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--border-color), transparent);
+    z-index: 1;
+    pointer-events: none;
+}
+
+.flow-info-box {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 1rem;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    margin-top: 1rem;
+}
+
+/* Mermaid graph view style */
+.mermaid-container {
+    background: #111827;
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    padding: 1.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow-x: auto;
+    width: 100%;
+    margin-top: 1rem;
+    direction: ltr; /* Graphs read left-to-right */
+}
+
+.mermaid svg {
+    background: transparent !important;
+}
+
 /* Shake Animation for simulator errors */
 @keyframes shake {
     0%, 100% { transform: translateX(0); }
@@ -1089,3 +1424,5 @@ header {
 .shake {
     animation: shake 0.4s ease-in-out;
 }
+
+
