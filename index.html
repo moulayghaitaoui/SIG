@@ -75,11 +75,23 @@
                     </svg>
                     <span>الهيكل المعماري (DDD)</span>
                 </div>
+                <div class="nav-item" data-tab="roadmap">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A2 2 0 013 15.483V4a2 2 0 012-2h14a2 2 0 012 2v11.483a2 2 0 01-1.553 1.943L15 20M9 20l6-4m-6 4v-4m6 4v-4m-6 0h6"></path>
+                    </svg>
+                    <span>خطة ومنهجية التحول</span>
+                </div>
                 <div class="nav-item" data-tab="interfaces">
                     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
                     </svg>
                     <span>شاشات وواجهات النظام</span>
+                </div>
+                <div class="nav-item" data-tab="proposals">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364.364l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                    </svg>
+                    <span>الاقتراحات والتوصيات</span>
                 </div>
             </nav>
 
@@ -279,7 +291,12 @@
 
             <!-- TAB 3: Validation Rules -->
             <div id="tab-validation-rules" class="tab-content">
-                <div class="rules-grid">
+                <div class="rules-view-selector" style="margin-bottom: 2rem; display: flex; gap: 1rem;">
+                    <button class="btn-view-toggle active" id="btn-view-cards" style="padding: 0.65rem 1.25rem; border-radius: 12px; background: var(--primary); border: none; color: white; font-weight: 700; cursor: pointer; transition: var(--transition); font-family: var(--font-ar)">عرض بطاقات القواعد الرئيسية</button>
+                    <button class="btn-view-toggle" id="btn-view-comparison" style="padding: 0.65rem 1.25rem; border-radius: 12px; background: rgba(255,255,255,0.03); border: 1px solid var(--border-color); color: var(--text-secondary); font-weight: 700; cursor: pointer; transition: var(--transition); font-family: var(--font-ar)">عرض جدول المطابقة البرمجية (WinDev vs Laravel)</button>
+                </div>
+
+                <div class="rules-grid" id="rules-cards-view">
                     
                     <!-- Rule 1 -->
                     <div class="rule-card">
@@ -348,6 +365,56 @@ if ($active_apprentices >= $employeur->max_quota_allowed) {
                         <p style="font-size:0.8rem; color:var(--text-muted)">الجداول المتأثرة: <span style="font-family:var(--font-en)">Employeur, Candidat_contratapp</span></p>
                     </div>
 
+                </div>
+
+                <div id="rules-comparison-view" style="display: none">
+                    <div class="card layout-col-full" style="background: rgba(17, 24, 39, 0.4); padding: 2rem; border-radius: 24px">
+                        <h4 style="font-weight: 700; color: white; margin-bottom: 1.25rem; font-size:1.1rem; border-right: 3px solid var(--secondary); padding-right:0.5rem">دليل مطابقة ومراجعة تغيرات قواعد التحقق وسلامة البيانات (WinDev vs Laravel 12)</h4>
+                        <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 1.5rem">يوضح الجدول التالي التغيرات الهيكلية لقواعد التحقق (Validation Rules) وضوابط سلامة منطق البيانات (Business Logic Integrity) أثناء مرحلة التحول المعماري من بيئة التطوير المكتبية WinDev / WLanguage إلى بيئة الويب الحديثة Laravel 12 / PHP 8.3:</p>
+                        <div style="overflow-x: auto">
+                            <table class="comparison-table">
+                                <thead>
+                                    <tr>
+                                        <th>قاعدة التحقق والرقابة</th>
+                                        <th>الصيغة والمنطق في WinDev (WLanguage)</th>
+                                        <th>الصيغة المحدثة في Laravel 12 (PHP 8.3)</th>
+                                        <th>ملفات الهجرة والنماذج المتأثرة</th>
+                                        <th>حالة محاكي الويب (app.js)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>مفتاح الحساب البريدي (Cle CCP)</strong></td>
+                                        <td style="font-size:0.85rem; color:var(--text-secondary); line-height:1.5">خوارزمية Modulo 97 محلية مبرمجة في الإجراءات العالمية للتأكد قبل المعالجة الورقية في الشاشة.</td>
+                                        <td style="font-size:0.85rem; color:var(--text-secondary); line-height:1.5">دالة فحص وتأكيد رياضية مدمجة في الـ Form Request لمنع التحويلات الخاطئة في الخلفية.</td>
+                                        <td style="font-family:var(--font-en); font-size:0.85rem; color:white">Fonctionnaire<br><span style="color:var(--text-muted); font-family:var(--font-ar); font-size:0.8rem">نموذج الموظفين والأجور</span></td>
+                                        <td><span class="status-badge success">ناجح ومطابق 100%</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>سن المترشح والقبول البيداغوجي</strong></td>
+                                        <td style="font-size:0.85rem; color:var(--text-secondary); line-height:1.5">فحص تاريخ الميلاد يدوياً في واجهة التسجيل ومطابقته بملف Access-Condition.</td>
+                                        <td style="font-size:0.85rem; color:var(--text-secondary); line-height:1.5">استخدام مكتبة Carbon لحساب العمر ديناميكياً وتطبيق شروط النمط في الـ Form Rules.</td>
+                                        <td style="font-family:var(--font-en); font-size:0.85rem; color:white">Candidat, Preinscrit<br><span style="color:var(--text-muted); font-family:var(--font-ar); font-size:0.8rem">المترشحين والتسجيل</span></td>
+                                        <td><span class="status-badge success">ناجح ومطابق 100%</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>رقابة الاعتماد السنوي للميزانية</strong></td>
+                                        <td style="font-size:0.85rem; color:var(--text-secondary); line-height:1.5">استعلام SQL محلي لحساب الفواتير المفتوحة، وتجميد الحفظ الفوري في واجهة الالتزام.</td>
+                                        <td style="font-size:0.85rem; color:var(--text-secondary); line-height:1.5">استخدام المعاملات المالية (Transactions) والتحقق التراكمي في قواعد البيانات لمنع العجز.</td>
+                                        <td style="font-family:var(--font-en); font-size:0.85rem; color:white">BudgetArticle, Commitment<br><span style="color:var(--text-muted); font-family:var(--font-ar); font-size:0.8rem">بنود الميزانية والالتزام</span></td>
+                                        <td><span class="status-badge success">ناجح ومطابق 100%</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>كوتا المتمهنين لدى الشركات</strong></td>
+                                        <td style="font-size:0.85rem; color:var(--text-secondary); line-height:1.5">فحص كلي لعدد المتمهنين النشطين بالشركة ومقارنته يدوياً بقوة العمل في شاشات SIG-PAF.</td>
+                                        <td style="font-size:0.85rem; color:var(--text-secondary); line-height:1.5">فحص فوري ونظام كوتا محدد آلياً بناءً على علاقات قواعد البيانات للشركات المشتركة.</td>
+                                        <td style="font-family:var(--font-en); font-size:0.85rem; color:white">Employeur, Candidat_contratapp<br><span style="color:var(--text-muted); font-family:var(--font-ar); font-size:0.8rem">الهيئات وعقود التمهين</span></td>
+                                        <td><span class="status-badge warning">متوفر كقاعدة استرشادية</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -555,6 +622,158 @@ if ($active_apprentices >= $employeur->max_quota_allowed) {
                 </div>
             </div>
 
+            <!-- TAB: Roadmap & Transition Plan -->
+            <div id="tab-roadmap" class="tab-content">
+                
+                <!-- 12-Week Interactive Timeline -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                            </svg>
+                            المخطط الزمني التفصيلي لمشروع التحول (12 أسبوعاً)
+                        </h3>
+                    </div>
+                    <p style="font-size:0.9rem; color:var(--text-secondary); margin-bottom:1rem">اضغط على أي مرحلة من المراحل الخمس في المخطط الزمني أدناه لعرض أنشطتها ومخرجاتها الهندسية المحددة بالتفصيل.</p>
+                    
+                    <div class="timeline-container">
+                        <div class="timeline-phase-card active" data-phase="1">
+                            <span class="phase-number">المرحلة 1</span>
+                            <span class="phase-title">التهيئة والتخطيط</span>
+                            <span class="phase-weeks">الأسبوع 1 - 2</span>
+                        </div>
+                        <div class="timeline-phase-card" data-phase="2">
+                            <span class="phase-number">المرحلة 2</span>
+                            <span class="phase-title">ترحيل الجداول والبيانات</span>
+                            <span class="phase-weeks">الأسبوع 3 - 5</span>
+                        </div>
+                        <div class="timeline-phase-card" data-phase="3">
+                            <span class="phase-number">المرحلة 3</span>
+                            <span class="phase-title">المنطق الخلفي والأمان</span>
+                            <span class="phase-weeks">الأسبوع 6 - 9</span>
+                        </div>
+                        <div class="timeline-phase-card" data-phase="4">
+                            <span class="phase-number">المرحلة 4</span>
+                            <span class="phase-title">الواجهات والتكامل</span>
+                            <span class="phase-weeks">الأسبوع 10 - 11</span>
+                        </div>
+                        <div class="timeline-phase-card" data-phase="5">
+                            <span class="phase-number">المرحلة 5</span>
+                            <span class="phase-title">الجودة والإطلاق النهائي</span>
+                            <span class="phase-weeks">الأسبوع 12</span>
+                        </div>
+                    </div>
+
+                    <!-- Dynamic Phase Info Box -->
+                    <div class="timeline-details-box" id="phase-details-box">
+                        <h4 id="phase-details-title" style="font-size:1.15rem; font-weight:800; color:white; margin-bottom:0.75rem; border-right:3px solid var(--secondary); padding-right:0.5rem">المرحلة 1: التهيئة والتخطيط والتأسيس المعماري</h4>
+                        <div style="display:grid; grid-template-columns:1fr 1fr; gap:2rem; margin-top:1rem">
+                            <div>
+                                <h5 style="font-weight:700; color:var(--primary); margin-bottom:0.5rem">الأنشطة والمهام الرئيسية:</h5>
+                                <ul style="padding-right:1.25rem; font-size:0.85rem; color:var(--text-secondary); line-height:1.6">
+                                    <li>دراسة معجم وجداول قاعدة البيانات الـ 552 بالتفصيل لضبط الاعتماديات الهيكلية.</li>
+                                    <li>تهيئة وإعداد مشروع Laravel 12 فارغ وضبط تكوينات الأمان وربطه بـ MySQL 8.</li>
+                                    <li>تهيئة مستودع الأكواد (Git Repository) ووضع سياسات فروع التطوير الموحدة.</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h5 style="font-weight:700; color:var(--success); margin-bottom:0.5rem">المخرجات والملفات المستلمة:</h5>
+                                <ul style="padding-right:1.25rem; font-size:0.85rem; color:var(--text-secondary); line-height:1.6">
+                                    <li>وثيقة المتطلبات البرمجية والتحليل المعماري المعتمدة.</li>
+                                    <li>هيكل مشروع Laravel 12 سليم ونظيف ومثبت الاعتمادات المطلوبة.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Team Allocation Grid -->
+                <div class="card" style="margin-top: 2rem">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                            </svg>
+                            مصفوفة توزيع المسؤوليات والمهام في المجموعة (Team Matrix)
+                        </h3>
+                    </div>
+                    <p style="font-size:0.9rem; color:var(--text-secondary); margin-bottom:1rem">تقسيم هيكلي للمسؤوليات على أعضاء فريق العمل الخمسة لضمان التنفيذ الاحترافي والسلس للمشروع.</p>
+                    
+                    <div class="team-roles-grid">
+                        <div class="role-card pm">
+                            <h4 class="role-title">مدير المشروع (PM)</h4>
+                            <p style="font-size:0.8rem; color:var(--primary); font-weight:700">التنسيق والقيادة ومطابقة شروط المنظومة</p>
+                            <ul class="role-responsibilities">
+                                <li>الإشراف العام على مطابقة الجدول الزمني الأسبوعي وتذليل العقبات التقنية للمجموعة.</li>
+                                <li>تأكيد دقة العمليات ومطابقتها التامة لمعايير وزارة التكوين المهني الجزائرية.</li>
+                                <li>التنسيق بين الإدارة والمصالح المالية للمركز وفريق التطوير لضمان التوافق.</li>
+                            </ul>
+                        </div>
+                        <div class="role-card dba">
+                            <h4 class="role-title">مهندس قواعد البيانات (DBA)</h4>
+                            <p style="font-size:0.8rem; color:var(--secondary); font-weight:700">هجرة وهيكلة وتطهير البيانات التاريخية</p>
+                            <ul class="role-responsibilities">
+                                <li>مراجعة وتنفيذ ملفات الهجرة (Migrations) لضمان خلو العلاقات من التعارض.</li>
+                                <li>كتابة وإدارة سكربتات ترحيل البيانات الأصلية من HFSQL إلى MySQL 8 بنجاح.</li>
+                                <li>تحسين وضبط فهارس الاستعلام (Database Indexes) لسرعة جلب السجلات.</li>
+                            </ul>
+                        </div>
+                        <div class="role-card backend">
+                            <h4 class="role-title">مطور الخلفية (Laravel)</h4>
+                            <p style="font-size:0.8rem; color:var(--accent); font-weight:700">بناء النماذج وقواعد الحساب والـ APIs</p>
+                            <ul class="role-responsibilities">
+                                <li>بناء النماذج (Models) والعلاقات المتشعبة بين الجداول الـ 552.</li>
+                                <li>برمجة منطق الحسابات المالية والأجور (Salary Controllers) وقواعد التحقق الفورية.</li>
+                                <li>ربط وتكامل API منصة "مهنتي" الوطنية الموحدة.</li>
+                            </ul>
+                        </div>
+                        <div class="role-card frontend">
+                            <h4 class="role-title">مطور الواجهات (Frontend)</h4>
+                            <p style="font-size:0.8rem; color:var(--success); font-weight:700">لوحات الإحصائيات وبناء النماذج والطباعة</p>
+                            <ul class="role-responsibilities">
+                                <li>تصميم وتطوير لوحات التحكم (Dashboards) التفاعلية والرسوم الإحصائية.</li>
+                                <li>بناء استمارات التسجيل وقبول المترشحين بأسلوب متجاوب زجاجي فاخر.</li>
+                                <li>مطابقة التقارير والشهادات الفصلية وكشوف الأجور للطباعة الفورية.</li>
+                            </ul>
+                        </div>
+                        <div class="role-card qa">
+                            <h4 class="role-title">مهندس الجودة والاختبارات</h4>
+                            <p style="font-size:0.8rem; color:var(--warning); font-weight:700">فحص سلامة النقل وضمان الحساب المالي</p>
+                            <ul class="role-responsibilities">
+                                <li>كتابة اختبارات الوحدة (Unit Tests) للعمليات والمنح والأجور المالية الحساسة.</li>
+                                <li>فحص مطابقة وسلامة البيانات بعد الترحيل لضمان عدم ضياع السجلات التاريخية.</li>
+                                <li>إجراء اختبارات ضغط خادم الويب واستقرار البوابة الرقمية قبل الإطلاق.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Live Data Migration Script Browser -->
+                <div class="card" style="margin-top: 2rem">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path>
+                            </svg>
+                            مستودع سكربتات ترحيل وهجرة البيانات الحية (HFSQL -> MySQL 8)
+                        </h3>
+                    </div>
+                    <p style="font-size:0.9rem; color:var(--text-secondary); margin-bottom:1rem">استعرض وانسخ السكربتات البرمجية والحلول التكنولوجية الثلاثة المقترحة لنقل السجلات والبيانات وتطهيرها.</p>
+                    
+                    <div class="sim-selector" style="grid-template-columns: repeat(3, 1fr); max-width: 600px">
+                        <div class="sim-select-btn active" id="btn-code-wlang">كود WLanguage الأصلي</div>
+                        <div class="sim-select-btn" id="btn-code-python">سكربت بايثون ونظام ETL</div>
+                        <div class="sim-select-btn" id="btn-code-csv">التصدير الوسيط (CSV)</div>
+                    </div>
+
+                    <div class="code-snippet" id="migration-code-area" style="max-height: 400px; overflow-y: auto; text-align: left; direction: ltr; white-space: pre">
+                        <!-- Dynamic code initialized by JS -->
+                    </div>
+                </div>
+
+            </div>
+
             <!-- TAB 5: Interfaces Navigator -->
             <div id="tab-interfaces" class="tab-content">
                 <div class="interfaces-grid">
@@ -742,6 +961,107 @@ if ($active_apprentices >= $employeur->max_quota_allowed) {
                         </div>
                     </div>
 
+                </div>
+            </div>
+
+            <!-- TAB 8: Proposals & Future Recommendations -->
+            <div id="tab-proposals" class="tab-content">
+                <div class="card layout-col-full" style="background: rgba(17, 24, 39, 0.4); padding: 2rem; border-radius: 24px; margin-bottom: 2rem">
+                    <div class="card-header" style="margin-bottom:1.5rem">
+                        <h3 class="card-title" style="font-size:1.25rem; font-weight:800; color:white; border-right:3px solid var(--secondary); padding-right:0.5rem">
+                            الاقتراحات الهندسية والتوصيات المستقبلية لتطوير وترقية نظام SIG (Laravel 12)
+                        </h3>
+                    </div>
+                    <p style="font-size:0.95rem; color:var(--text-secondary); line-height:1.6; margin-bottom:2rem">بناءً على التحليل المعماري للملفات الـ 552 وجداول الأنظمة الفرعية (SIG, SIGFA, SIG-PAF)، نوصي بتطبيق الاقتراحات الاستراتيجية التالية لضمان أعلى مستويات الأداء والأمان وتكامل الخدمات الرقمية في البيئة الجديدة <strong>Laravel 12</strong>:</p>
+                    
+                    <div class="proposals-grid">
+                        
+                        <!-- Proposal 1 -->
+                        <div class="proposal-card">
+                            <div class="proposal-header">
+                                <span class="proposal-num">01</span>
+                                <h3 class="proposal-title">التكامل الرقمي الفوري مع منصة "مهنتي" الوطنية (Real-time Mihnati API)</h3>
+                            </div>
+                            <div class="proposal-body">
+                                <p><strong>الوضع الحالي:</strong> تتم المزامنة حالياً بطريقة غير مباشرة عبر استيراد ملفات مرجعية ثابتة بصيغة JSON (الولايات والبلديات والتخصصات).</p>
+                                <p><strong>الحل المقترح:</strong> تطوير بوابة ربط رقمية مباشرة (RESTful API / GraphQL) محمية بمفاتيح مرور مشفرة (API Keys / OAuth2) لتسهيل جلب ملفات المترشحين المقبولين نهائياً بصفة لحظية دون تدخل بشري وتحديث عروض التكوين المفتوحة بالمركز على المنصة الوطنية فور اعتمادها داخلياً.</p>
+                                <div class="proposal-tags">
+                                    <span class="proposal-tag">API Integration</span>
+                                    <span class="proposal-tag">OAuth2 / Sanctum</span>
+                                    <span class="proposal-tag">Real-time Sync</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Proposal 2 -->
+                        <div class="proposal-card">
+                            <div class="proposal-header">
+                                <span class="proposal-num">02</span>
+                                <h3 class="proposal-title">نظام التنبيهات النصية والبريدية الفورية (Multi-channel Notification System)</h3>
+                            </div>
+                            <div class="proposal-body">
+                                <p><strong>الوضع الحالي:</strong> يتم تسجيل غيابات الطلاب بجدول <code>apprenant_absence</code> والتقييمات دون وجود قناة تواصل فورية وتفاعلية مع الأولياء أو الأطراف المعنية.</p>
+                                <p><strong>الحل المقترح:</strong> دمج خدمات الإرسال الجماعي للرسائل النصية (Bulk SMS Gateways) الخاصة بالمتعاملين المحليين (Mobilis, Djezzy, Ooredoo) والبريد الإلكتروني لإعلام أولياء المتربصين فور تسجيل غياب غير مبرر لمنع التسريح التلقائي وإعلام المتمهنين والشركات بمواعيد تجديد أو توقيع عقود التمهين.</p>
+                                <div class="proposal-tags">
+                                    <span class="proposal-tag">Bulk SMS</span>
+                                    <span class="proposal-tag">Laravel Queue</span>
+                                    <span class="proposal-tag">Notification Channels</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Proposal 3 -->
+                        <div class="proposal-card">
+                            <div class="proposal-header">
+                                <span class="proposal-num">03</span>
+                                <h3 class="proposal-title">ترقية محرك توليد التقارير الرسمية وحوالات CCP (PDF/Report Engine)</h3>
+                            </div>
+                            <div class="proposal-body">
+                                <p><strong>الوضع الحالي:</strong> يعتمد النظام بالكامل على مولد تقارير WinDev الكلاسيكي (<code>.wde</code>) لطباعة الشهادات والمحاضر ومستخرجات الرواتب وحوالات CCP.</p>
+                                <p><strong>الحل المقترح:</strong> دمج محرك تقارير متطور في Laravel 12 مثل <strong>Browsershot (Puppeteer)</strong> أو <strong>Laravel Snappy (wkhtmltopdf)</strong> لضمان توليد ملفات PDF متطابقة 100% مع النماذج الرسمية لوزارة التكوين والتعليم المهنيين، مع طباعة الصكوك وحوالات الدفع البريدية CCP بترميز عربي سليم.</p>
+                                <div class="proposal-tags">
+                                    <span class="proposal-tag">Browsershot</span>
+                                    <span class="proposal-tag">Puppeteer</span>
+                                    <span class="proposal-tag">PDF Generation</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Proposal 4 -->
+                        <div class="proposal-card">
+                            <div class="proposal-header">
+                                <span class="proposal-num">04</span>
+                                <h3 class="proposal-title">نظام تدقيق وحماية متكامل للعمليات الحساسة (Audit Trails)</h3>
+                            </div>
+                            <div class="proposal-body">
+                                <p><strong>الوضع الحالي:</strong> يضم النظام ميزانيات مالية حساسة (SIGFA) وحساب رواتب الأساتذة ودرجات اختبارات الطلاب دون سجل تتبع تدريجي للعمليات الإدارية.</p>
+                                <p><strong>الحل المقترح:</strong> تفعيل حزمة تدقيق العمليات (Audit Trails) مثل <strong>Spatie Laravel Activitylog</strong> لتسجيل كل عملية إضافة، تعديل، أو حذف في قاعدة البيانات، مع حفظ هوية المستخدم، عنوان الـ IP، ووقت العملية، والقيمة الأصلية والجديدة للبيانات لضمان الشفافية الكاملة وتفادي التلاعب.</p>
+                                <div class="proposal-tags">
+                                    <span class="proposal-tag">Activity Log</span>
+                                    <span class="proposal-tag">Security Audit</span>
+                                    <span class="proposal-tag">Spatie Laravel</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Proposal 5 -->
+                        <div class="proposal-card">
+                            <div class="proposal-header">
+                                <span class="proposal-num">05</span>
+                                <h3 class="proposal-title">ذاكرة التخزين المؤقت وتحسين الاستعلامات (Redis Caching & DB Indexing)</h3>
+                            </div>
+                            <div class="proposal-body">
+                                <p><strong>الوضع الحالي:</strong> حجم قاعدة البيانات الضخم (552 جدولاً) قد يؤثر على سرعة استجابة بوابة الويب عند ذروة التسجيلات أو استدعاء كشوف الرواتب الضخمة.</p>
+                                <p><strong>الحل المقترح:</strong> تفعيل ذاكرة التخزين المؤقت <strong>Redis</strong> لحفظ البيانات الثابتة (مثل كشوف الولايات والبلديات والتخصصات المعتمدة)، وإعادة هيكلة فهارس جداول البحث الفوري (Indexes) في جداول <code>Apprenant</code>, <code>Candidat</code>, و <code>Fonctionnaire</code> لضمان أوقات استجابة سريعة جداً.</p>
+                                <div class="proposal-tags">
+                                    <span class="proposal-tag">Redis Cache</span>
+                                    <span class="proposal-tag">DB Indexing</span>
+                                    <span class="proposal-tag">Query Optimization</span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
                 </div>
             </div>
 

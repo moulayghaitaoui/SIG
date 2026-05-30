@@ -370,9 +370,17 @@ document.addEventListener('DOMContentLoaded', () => {
             title: 'الهيكل المعماري وعلاقات الفئات (DDD)',
             subtitle: 'استكشاف النطاقات البرمجية وتصميم الفئات والعلاقات البينية لنظام Laravel 12'
         },
+        'roadmap': {
+            title: 'خطة ومنهجية ترحيل وتحويل النظام',
+            subtitle: 'المخطط الزمني للتحول (12 أسبوعاً)، وتوزيع مسؤوليات الفريق وسكربتات ترحيل البيانات'
+        },
         'interfaces': {
             title: 'دليل شاشات وواجهات النظام الشامل',
             subtitle: 'الربط المعماري بين شاشات WinDev ومدخلاتها في الجداول والتقارير الورقية المطبوعة'
+        },
+        'proposals': {
+            title: 'الرؤية الهندسية والاقتراحات الاستراتيجية المستقبلية',
+            subtitle: 'توصيات هندسية متكاملة لترقية وتطوير النظام في بيئة Laravel 12 لضمان الكفاءة والأمان والربط الفوري'
         }
     };
 
@@ -396,6 +404,12 @@ document.addEventListener('DOMContentLoaded', () => {
             // Trigger architecture render if tab selected
             if (selectedTab === 'architecture') {
                 renderArchitectureDomain('establishment');
+            }
+            
+            // Trigger roadmap defaults if selected
+            if (selectedTab === 'roadmap') {
+                renderRoadmapPhase(1);
+                loadMigrationCode('wlang');
             }
         });
     });
@@ -1059,7 +1073,6 @@ ${fieldsBlueprint}            $table->timestamps();
         archDomainDesc.textContent = domain.desc;
         archClassesContainer.innerHTML = '';
 
-        // Render graphical class cards
         domain.classes.forEach(cls => {
             const card = document.createElement('div');
             card.className = 'arch-class-card';
@@ -1102,9 +1115,7 @@ ${fieldsBlueprint}            $table->timestamps();
             archClassesContainer.appendChild(card);
         });
 
-        // Dynamic Mermaid Diagram Renderer
         if (window.mermaid) {
-            // Clear and rebuild mermaid node to force re-render
             const parent = mermaidArea.parentElement;
             parent.innerHTML = `<div class="mermaid" id="mermaid-render-area"></div>`;
             const newArea = document.getElementById('mermaid-render-area');
@@ -1139,14 +1150,12 @@ ${fieldsBlueprint}            $table->timestamps();
         node.addEventListener('click', () => {
             const system = node.getAttribute('data-system');
             
-            // Highlight node temporarily
             flowNodes.forEach(n => n.style.transform = 'none');
             node.style.transform = 'translateY(-5px) scale(1.05)';
             node.style.borderColor = 'var(--secondary)';
             
             if (flowSystemExplanations[system]) {
                 flowInfoText.innerHTML = flowSystemExplanations[system];
-                // Apply soft visual pulse to information box
                 flowInfoText.style.borderColor = 'var(--secondary)';
                 flowInfoText.style.background = 'rgba(6, 182, 212, 0.05)';
                 setTimeout(() => {
@@ -1158,7 +1167,268 @@ ${fieldsBlueprint}            $table->timestamps();
     });
 
 
-    // --- 7. Interactive Validation Simulator ---
+    // --- 7. Interactive Roadmap Timeline & Scripts Explorer ---
+    const timelinePhaseCards = document.querySelectorAll('.timeline-phase-card');
+    const phaseDetailsTitle = document.getElementById('phase-details-title');
+    const phaseDetailsBox = document.getElementById('phase-details-box');
+
+    const phaseDetailsData = {
+        1: {
+            title: 'المرحلة 1: التهيئة والتخطيط والتأسيس المعماري (الأسبوع 1 - 2)',
+            html: `<div style="display:grid; grid-template-columns:1fr 1fr; gap:2rem; margin-top:1rem">
+                <div>
+                    <h5 style="font-weight:700; color:var(--primary); margin-bottom:0.5rem">الأنشطة والمهام الرئيسية:</h5>
+                    <ul style="padding-right:1.25rem; font-size:0.85rem; color:var(--text-secondary); line-height:1.6">
+                        <li>دراسة معجم وجداول قاعدة البيانات الـ 552 بالتفصيل لضبط الاعتماديات الهيكلية.</li>
+                        <li>تهيئة وإعداد مشروع Laravel 12 فارغ وضبط تكوينات الأمان وربطه بـ MySQL 8.</li>
+                        <li>تهيئة مستودع الأكواد (Git Repository) ووضع سياسات فروع التطوير الموحدة.</li>
+                    </ul>
+                </div>
+                <div>
+                    <h5 style="font-weight:700; color:var(--success); margin-bottom:0.5rem">المخرجات والملفات المستلمة:</h5>
+                    <ul style="padding-right:1.25rem; font-size:0.85rem; color:var(--text-secondary); line-height:1.6">
+                        <li>وثيقة المتطلبات البرمجية والتحليل المعماري المعتمدة.</li>
+                        <li>هيكل مشروع Laravel 12 سليم ونظيف ومثبت الاعتمادات المطلوبة.</li>
+                    </ul>
+                </div>
+            </div>`
+        },
+        2: {
+            title: 'المرحلة 2: ترحيل وهجرة قاعدة البيانات والسجلات الحية (الأسبوع 3 - 5)',
+            html: `<div style="display:grid; grid-template-columns:1fr 1fr; gap:2rem; margin-top:1rem">
+                <div>
+                    <h5 style="font-weight:700; color:var(--primary); margin-bottom:0.5rem">الأنشطة والمهام الرئيسية:</h5>
+                    <ul style="padding-right:1.25rem; font-size:0.85rem; color:var(--text-secondary); line-height:1.6">
+                        <li>تشغيل وإدراج ملفات الهجرة (Migrations) بالترتيب التوبولوجي الصحيح في خادم MySQL 8.</li>
+                        <li>تطوير وتشغيل سكربتات ترحيل البيانات (WLanguage / Python ETL) ونقلها بالكامل.</li>
+                        <li>تطهير وإعادة تهيئة السجلات التاريخية التالفة وتعديل صيغ التواريخ والبيانات الثنائية (BLOBs).</li>
+                    </ul>
+                </div>
+                <div>
+                    <h5 style="font-weight:700; color:var(--success); margin-bottom:0.5rem">المخرجات والملفات المستلمة:</h5>
+                    <ul style="padding-right:1.25rem; font-size:0.85rem; color:var(--text-secondary); line-height:1.6">
+                        <li>قاعدة بيانات MySQL 8 مأهولة بالكامل بكافة البيانات والسجلات التاريخية.</li>
+                        <li>تقرير مطابقة الحسابات والبيانات وتأكيد عدم ضياع أي سجل (Data Validation Report).</li>
+                    </ul>
+                </div>
+            </div>`
+        },
+        3: {
+            title: 'المرحلة 3: برمجة المنطق الخلفي والأمان وعلاقات الكيانات (الأسبوع 6 - 9)',
+            html: `<div style="display:grid; grid-template-columns:1fr 1fr; gap:2rem; margin-top:1rem">
+                <div>
+                    <h5 style="font-weight:700; color:var(--primary); margin-bottom:0.5rem">الأنشطة والمهام الرئيسية:</h5>
+                    <ul style="padding-right:1.25rem; font-size:0.85rem; color:var(--text-secondary); line-height:1.6">
+                        <li>برمجة نماذج البيانات (Eloquent Models) وتفعيل العلاقات المتشعبة المكتشفة.</li>
+                        <li>تنفيذ خوارزميات وقواعد التحقق (الصب CCP، سن القبول البيداغوجي، كوتا عقود التمهين، وموازنات الصرف المالي).</li>
+                        <li>تطوير واجهة برمجة التطبيقات (REST APIs) لربط المزامنة الفورية مع منصة "مهنتي" الوطنية.</li>
+                    </ul>
+                </div>
+                <div>
+                    <h5 style="font-weight:700; color:var(--success); margin-bottom:0.5rem">المخرجات والملفات المستلمة:</h5>
+                    <ul style="padding-right:1.25rem; font-size:0.85rem; color:var(--text-secondary); line-height:1.6">
+                        <li>الواجهة الخلفية (Backend) جاهزة بالكامل ومؤمنة بصلاحيات ولوج دقيقة.</li>
+                        <li>حزمة اختبارات الوحدة (Unit Tests) لجميع الحسابات الحساسة للأجور والمالية بنسبة تغطية عالية.</li>
+                    </ul>
+                </div>
+            </div>`
+        },
+        4: {
+            title: 'المرحلة 4: بناء الواجهات وتكامل شاشات الويب (الأسبوع 10 - 11)',
+            html: `<div style="display:grid; grid-template-columns:1fr 1fr; gap:2rem; margin-top:1rem">
+                <div>
+                    <h5 style="font-weight:700; color:var(--primary); margin-bottom:0.5rem">الأنشطة والمهام الرئيسية:</h5>
+                    <ul style="padding-right:1.25rem; font-size:0.85rem; color:var(--text-secondary); line-height:1.6">
+                        <li>تصميم لوحة التحكم الرئيسية وعروض التكوين وبوابات قبول المتربصين إلكترونياً.</li>
+                        <li>برمجة النماذج المطبوعة والشهادات الرسمية وكشوف الرواتب بصيغ PDF مطابقة للمواصفات الحكومية.</li>
+                        <li>ربط وتكامل واجهات العرض مع الواجهة الخلفية عبر استدعاءات API السريعة وبأسلوب Glassmorphic.</li>
+                    </ul>
+                </div>
+                <div>
+                    <h5 style="font-weight:700; color:var(--success); margin-bottom:0.5rem">المخرجات والملفات المستلمة:</h5>
+                    <ul style="padding-right:1.25rem; font-size:0.85rem; color:var(--text-secondary); line-height:1.6">
+                        <li>بوابة ويب متكاملة وتفاعلية (Frontend) جاهزة لكافة شاشات التسيير بالمركز.</li>
+                        <li>ملفات ومحركات توليد المستندات الرسمية PDF باللغتين العربية والفرنسية خالية من أخطاء الترميز.</li>
+                    </ul>
+                </div>
+            </div>`
+        },
+        5: {
+            title: 'المرحلة 5: الجودة والنشر والتشغيل الميداني الفعلي (الأسبوع 12)',
+            html: `<div style="display:grid; grid-template-columns:1fr 1fr; gap:2rem; margin-top:1rem">
+                <div>
+                    <h5 style="font-weight:700; color:var(--primary); margin-bottom:0.5rem">الأنشطة والمهام الرئيسية:</h5>
+                    <ul style="padding-right:1.25rem; font-size:0.85rem; color:var(--text-secondary); line-height:1.6">
+                        <li>إجراء اختبارات الأداء والضغط والتأكد من استقرار بوابة الويب وسرعة استعلامات MySQL 8.</li>
+                        <li>تنصيب وإعداد خادم الإنتاج النهائي، ونشر التطبيق بالكامل وتأمين النسخ الاحتياطي التلقائي.</li>
+                        <li>تقديم دورات تدريبية مكثفة لموظفي المركز الإداريين والماليين لاستعمال البوابة الجديدة بيسر.</li>
+                    </ul>
+                </div>
+                <div>
+                    <h5 style="font-weight:700; color:var(--success); margin-bottom:0.5rem">المخرجات والملفات المستلمة:</h5>
+                    <ul style="padding-right:1.25rem; font-size:0.85rem; color:var(--text-secondary); line-height:1.6">
+                        <li>رابط النظام النهائي في وضع التشغيل للإنتاج (Go-Live).</li>
+                        <li>دليل الاستخدام والتشغيل الكامل وكتيب الدعم الفني والصيانة الدورية للمنصة.</li>
+                    </ul>
+                </div>
+            </div>`
+        }
+    };
+
+    function renderRoadmapPhase(phaseNum) {
+        const data = phaseDetailsData[phaseNum];
+        if (!data) return;
+
+        timelinePhaseCards.forEach(card => card.classList.remove('active'));
+        document.querySelector(`.timeline-phase-card[data-phase="${phaseNum}"]`).classList.add('active');
+
+        phaseDetailsTitle.textContent = data.title;
+        
+        // Remove and animate details box to make interaction vivid
+        phaseDetailsBox.style.animation = 'none';
+        phaseDetailsBox.offsetHeight; /* trigger reflow */
+        phaseDetailsBox.style.animation = null;
+        
+        // Render raw HTML
+        const contentDiv = phaseDetailsBox.querySelector('div');
+        if (contentDiv) {
+            contentDiv.parentElement.removeChild(contentDiv);
+        }
+        phaseDetailsBox.insertAdjacentHTML('beforeend', data.html);
+    }
+
+    timelinePhaseCards.forEach(card => {
+        card.addEventListener('click', () => {
+            const phase = parseInt(card.getAttribute('data-phase'));
+            renderRoadmapPhase(phase);
+        });
+    });
+
+    // Code snippets templates for migration
+    const migrationScripts = {
+        'wlang': `// كود مبرمج في مشروع WinDev لنقل البيانات لـ MySQL
+// 1. الاتصال بقاعدة بيانات MySQL 8
+ConnexionMySQL is Connection
+ConnexionMySQL.Provider = hAccessProviderMySQL
+ConnexionMySQL.Server = "localhost"
+ConnexionMySQL.User = "root"
+ConnexionMySQL.Password = "password"
+ConnexionMySQL.Database = "sig_laravel"
+ConnexionMySQL.Port = 3306
+
+IF NOT HOpenConnection(ConnexionMySQL) THEN
+    Error("فشل الاتصال بقاعدة بيانات MySQL: " + HErrorInfo())
+    RETURN
+END
+
+// 2. تكرار النقل لكل جدول (مثال: جدول المترشحين candidat)
+HReadFirst(candidat)
+WHILE NOT HOut(candidat)
+    // كتابة استعلام الإدخال المباشر في MySQL
+    QuerySQL is string = "INSERT INTO candidat (id_candidat, nom, prenom, date_naiss, nin) VALUES (%1, '%2', '%3', '%4', '%5')"
+    QuerySQL = StringBuild(QuerySQL, candidat.id_candidat, SQLString(candidat.nom), SQLString(candidat.prenom), DateToString(candidat.date_naiss, "YYYY-MM-DD"), candidat.nin)
+    
+    IF NOT HExecuteSQLQuery(ConnexionMySQL, QuerySQL) THEN
+        Trace("خطأ في نقل السجل: " + HErrorInfo())
+    END
+    HReadNext(candidat)
+END
+HCloseConnection(ConnexionMySQL)
+Info("تم الانتهاء من ترحيل البيانات بنجاح.")`,
+        
+        'python': `import pyodbc
+import pymysql
+import datetime
+
+# 1. الاتصال بملفات HFSQL الكلاسيكية عبر تعريف ODBC الخاص بشركة PC SOFT
+hfsql_conn = pyodbc.connect(
+    'DRIVER={HFSQL};'
+    'Server Address=localhost:4900;'
+    'Database=MyProjects_SIG;'
+    'UID=admin;'
+    'PWD=;'
+)
+hfsql_cursor = hfsql_conn.cursor()
+
+# 2. الاتصال بقاعدة بيانات MySQL
+mysql_conn = pymysql.connect(
+    host='localhost',
+    user='root',
+    password='password',
+    database='sig_laravel',
+    charset='utf8mb4'
+)
+mysql_cursor = mysql_conn.cursor()
+
+# 3. جلب وترحيل البيانات (مثال: جدول الموظفين)
+hfsql_cursor.execute("SELECT id_fonctionnaire, ccp, cle_ccp, nom, prenom FROM fonctionnaire")
+rows = hfsql_cursor.fetchall()
+
+insert_query = "INSERT INTO fonctionnaire (id_fonctionnaire, ccp, cle_ccp, nom, prenom) VALUES (%s, %s, %s, %s, %s)"
+
+for row in rows:
+    # معالجة وتحويل القيم لتوافق MySQL
+    ccp_val = str(row.ccp).strip()
+    key_val = str(row.cle_ccp).strip()
+    nom_val = str(row.nom).strip()
+    prenom_val = str(row.prenom).strip()
+    
+    mysql_cursor.execute(insert_query, (row.id_fonctionnaire, ccp_val, key_val, nom_val, prenom_val))
+
+mysql_conn.commit()
+
+# إغلاق الاتصالات
+mysql_cursor.close()
+mysql_conn.close()
+hfsql_cursor.close()
+hfsql_conn.close()
+print("تمت هجرة بيانات الجدول بنجاح.")`,
+        
+        'csv': `-- 1. تصدير الجدول بصيغة CSV من أداة HFSQL Control Center بترميز UTF-8
+-- 2. استدعاء استعلام MySQL الفوري السريع لتحميل السجلات إلى الجدول Laravel المقابل
+
+LOAD DATA INFILE '/path/to/candidat.csv' 
+INTO TABLE candidat 
+CHARACTER SET utf8mb4
+FIELDS TERMINATED BY ',' 
+ENCLOSED BY '"'
+LINES TERMINATED BY '\\n'
+IGNORE 1 ROWS
+(id_candidat, nom, prenom, date_naiss, nin, @created_at, @updated_at)
+SET created_at = NOW(), updated_at = NOW();`
+    };
+
+    const codeArea = document.getElementById('migration-code-area');
+    const btnWlang = document.getElementById('btn-code-wlang');
+    const btnPython = document.getElementById('btn-code-python');
+    const btnCsv = document.getElementById('btn-code-csv');
+
+    function loadMigrationCode(type) {
+        if (migrationScripts[type]) {
+            codeArea.textContent = migrationScripts[type];
+        }
+    }
+
+    if (btnWlang && btnPython && btnCsv) {
+        btnWlang.addEventListener('click', () => {
+            document.querySelectorAll('#tab-roadmap .sim-select-btn').forEach(b => b.classList.remove('active'));
+            btnWlang.classList.add('active');
+            loadMigrationCode('wlang');
+        });
+        btnPython.addEventListener('click', () => {
+            document.querySelectorAll('#tab-roadmap .sim-select-btn').forEach(b => b.classList.remove('active'));
+            btnPython.classList.add('active');
+            loadMigrationCode('python');
+        });
+        btnCsv.addEventListener('click', () => {
+            document.querySelectorAll('#tab-roadmap .sim-select-btn').forEach(b => b.classList.remove('active'));
+            btnCsv.classList.add('active');
+            loadMigrationCode('csv');
+        });
+    }
+
+
+    // --- 8. Interactive Validation Simulator ---
     const simSelectBtns = document.querySelectorAll('.sim-select-btn');
     const simForms = document.querySelectorAll('.sim-form');
     const simResultContainer = document.getElementById('sim-result-container');
@@ -1174,6 +1444,9 @@ ${fieldsBlueprint}            $table->timestamps();
         btn.addEventListener('click', () => {
             const targetRule = btn.getAttribute('data-rule');
             
+            // Protect simulator selections from timeline scripts selector tabs
+            if (!targetRule) return;
+
             simSelectBtns.forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
 
@@ -1329,6 +1602,44 @@ ${fieldsBlueprint}            $table->timestamps();
                 <span class="result-detail-value ${row.en ? 'en' : ''}">${row.value}</span>
             `;
             resultDetailsEl.appendChild(div);
+        });
+    }
+
+    // --- Validation Rules Tab Toggle ---
+    const btnViewCards = document.getElementById('btn-view-cards');
+    const btnViewComparison = document.getElementById('btn-view-comparison');
+    const rulesCardsView = document.getElementById('rules-cards-view');
+    const rulesComparisonView = document.getElementById('rules-comparison-view');
+
+    if (btnViewCards && btnViewComparison && rulesCardsView && rulesComparisonView) {
+        btnViewCards.addEventListener('click', () => {
+            btnViewCards.classList.add('active');
+            btnViewCards.style.background = 'var(--primary)';
+            btnViewCards.style.color = 'white';
+            btnViewCards.style.borderColor = 'transparent';
+
+            btnViewComparison.classList.remove('active');
+            btnViewComparison.style.background = 'rgba(255,255,255,0.03)';
+            btnViewComparison.style.color = 'var(--text-secondary)';
+            btnViewComparison.style.borderColor = 'var(--border-color)';
+
+            rulesCardsView.style.display = 'grid';
+            rulesComparisonView.style.display = 'none';
+        });
+
+        btnViewComparison.addEventListener('click', () => {
+            btnViewComparison.classList.add('active');
+            btnViewComparison.style.background = 'var(--primary)';
+            btnViewComparison.style.color = 'white';
+            btnViewComparison.style.borderColor = 'transparent';
+
+            btnViewCards.classList.remove('active');
+            btnViewCards.style.background = 'rgba(255,255,255,0.03)';
+            btnViewCards.style.color = 'var(--text-secondary)';
+            btnViewCards.style.borderColor = 'var(--border-color)';
+
+            rulesCardsView.style.display = 'none';
+            rulesComparisonView.style.display = 'block';
         });
     }
 
